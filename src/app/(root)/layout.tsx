@@ -1,4 +1,4 @@
-import NavBar from "@/components/NavBar";
+import Navbar from "@/components/NavBar";
 import { ReactNode } from "react";
 
 export default function Layout ({
@@ -8,7 +8,7 @@ export default function Layout ({
 }>){
     return(
         <main className="bg-white">
-            
+            <Navbar/>
             {children}
         </main>
     )

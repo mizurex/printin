@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  mobile     Int      @unique
+  address    String
+  created_at DateTime @default(now())
+  orders     Order[]
+}
+
+model Order {
+  id               Int         @id @default(autoincrement())
+  user_id          Int
+  order_number     Int         @unique @default(autoincrement())
+  delivery_address String
+  total_pages      Int
+  order_amount     Int
+  order_status     OrderStatus @default(PENDING)
+  documents        Document[]
+  user             User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id             Int      @id @default(autoincrement())
+  order_id       Int
+  file_url       String
+  mime_type      String?
+  page_count     Int      @default(1)
+  print_settings Json?
+  uploaded_at    DateTime @default(now())
+  order          Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  DELIVERED
+}

@@ -1,4 +1,3 @@
-// pages/order.tsx
 "use client";
 import { useState } from "react";
 import OrderStepper from "@/components/order/OrderStepper";
@@ -6,6 +5,7 @@ import FileUpload from "@/components/order/FileUpload";
 import PrintOptions from "@/components/order/PrintOptions";
 import ServiceOptions from "@/components/order/ServiceOptions";
 import Checkout from "@/components/order/Checkout";
+import OrderNav from "@/components/order/OrderNav";
 
 export default function OrderPage() {
   const [step, setStep] = useState(1);
@@ -20,7 +20,7 @@ export default function OrderPage() {
     lamination:"None",
   },
   service: {
-    method: "delivery", // or "pickup"
+    method: "delivery", 
     delivery: {
       name: "",
       email: "",
@@ -42,9 +42,10 @@ export default function OrderPage() {
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
-        <OrderStepper step={step} />
+    <div className="min-h-screen bg-gray-50 ">
+      <OrderNav step={step}/>
+      <div className="  bg-white ">
+       
 
         {step === 1 && (
           <FileUpload
@@ -72,7 +73,7 @@ export default function OrderPage() {
         {step === 4 && (
           <Checkout
             orderData={orderData}
-            prevStep={prevStep}
+           
           />
         )}
       </div>

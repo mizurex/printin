@@ -1,228 +1,369 @@
+"use client";
+
 import { useState } from "react";
+import { Merriweather } from "next/font/google";
+
+
+const heading = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 type Props = {
-    orderData: any;
-    setOrderData: (data: any) => void;
-    nextStep: () => void;
-    prevStep: () => void;
+  orderData: any;
+  setOrderData: (data: any) => void;
+  nextStep: () => void;
+  prevStep: () => void;
 };
 
-export default function PrintOptions({ orderData, setOrderData, nextStep, prevStep }: Props) {
-    const [subStep, setSubStep] = useState(1); // 👈 local step for options
+export default function PrintOptions({
+  orderData,
+  setOrderData,
+  nextStep,
+  prevStep,
+}: Props) {
+  const [subStep, setSubStep] = useState(1);
 
-    // Handle next/prev inside this component
-    const nextSubStep = () => {
-        if (subStep < 4) {
-            setSubStep(subStep + 1);
-        } else {
-            nextStep(); // when finished (lamination), move to the big step
-        }
-    };
+  const nextSubStep = () => {
+    if (subStep < 4) {
+      setSubStep(subStep + 1);
+    } else {
+      nextStep();
+    }
+  };
 
-    const prevSubStep = () => {
-        if (subStep > 1) {
-            setSubStep(subStep - 1);
-        } else {
-            prevStep(); // if on first, go back to FileUpload
-        }
-    };
+  const prevSubStep = () => {
+    if (subStep > 1) {
+      setSubStep(subStep - 1);
+    } else {
+      prevStep();
+    }
+  };
 
-    return (
-        <div>
-            <div className="text-black">
-                <div className="flex justify-center">
-                    <h2 className="text-xl font-bold mb-4 text-black">What can we do for your printing?</h2>
-                </div>
-                <div className="flex justify-center">
-                    <p>Select printing options</p>
-                </div>
-            </div>
-
-            {/* Step tabs */}
-            <div className="flex gap-4 mb-6 text-gray-600 justify-center">
-                <span className={subStep === 1 ? "text-green-600 font-bold" : ""}>Colour</span>
-                <span className={subStep === 2 ? "text-green-600 font-bold" : ""}>Sides</span>
-                <span className={subStep === 3 ? "text-green-600 font-bold" : ""}>Binding</span>
-                <span className={subStep === 4 ? "text-green-600 font-bold" : ""}>Lamination</span>
-            </div>
-
-            {/* Sub step 1: Colour */}
-            {subStep === 1 && (
-                <div className="flex gap-4 mb-4 justify-center">
-                    {[
-                        { label: "Black & White", img: "/brush.png" },
-                        { label: "Colour", img: "/colorbrush.png" },
-                    ].map((opt) => (
-                        <button
-                            key={opt.label}
-                            className={`py-8 border rounded-lg w-40 flex flex-col items-center shadow-md ${
-                                orderData.options.colour === opt.label
-                                    ? "border-green-500 bg-green-50"
-                                    : "border-gray-300"
-                            }`}
-                            onClick={() =>
-                                setOrderData({
-                                    ...orderData,
-                                    options: { ...orderData.options, colour: opt.label },
-                                })
-                            }
-                        >
-                            <img src={opt.img} alt={opt.label} className="w-12 h-12 mb-2" />
-                            <span
-                                className={`font-semibold ${
-                                    orderData.options.colour === opt.label
-                                        ? "text-gray-900"
-                                        : "text-gray-400"
-                                }`}
-                            >
-                                {opt.label}
-                            </span>
-                            <input
-                                type="checkbox"
-                                checked={orderData.options.colour === opt.label}
-                                readOnly
-                                className="mt-2"
-                            />
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {/* Sub step 2: Sides */}
-            {subStep === 2 && (
-                <div className="flex gap-4 mb-4 justify-center">
-                    {[
-                        { label: "Single-Sided", img: "/single.png" },
-                        { label: "Double-Sided", img: "/double.png" },
-                    ].map((opt) => (
-                        <button
-                            key={opt.label}
-                            className={`py-8 border rounded-lg w-40 flex flex-col items-center shadow-md ${
-                                orderData.options.sides === opt.label
-                                    ? "border-green-500 bg-green-50"
-                                    : "border-gray-300"
-                            }`}
-                            onClick={() =>
-                                setOrderData({
-                                    ...orderData,
-                                    options: { ...orderData.options, sides: opt.label },
-                                })
-                            }
-                        >
-                            <img src={opt.img} alt={opt.label} className="w-12 h-12 mb-2" />
-                            <span
-                                className={`font-semibold ${
-                                    orderData.options.sides === opt.label
-                                        ? "text-gray-900"
-                                        : "text-gray-400"
-                                }`}
-                            >
-                                {opt.label}
-                            </span>
-                            <input
-                                type="checkbox"
-                                checked={orderData.options.sides === opt.label}
-                                readOnly
-                                className="mt-2"
-                            />
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {/* Sub step 3: Binding */}
-            {subStep === 3 && (
-                <div className="flex gap-4 mb-4 justify-center">
-                    {[
-                        { label: "None", img: "/none.png" },
-                        { label: "Binding", img: "/binding.png" },
-                    ].map((opt) => (
-                        <button
-                            key={opt.label}
-                            className={`py-8 border rounded-lg w-40 flex flex-col items-center shadow-md ${
-                                orderData.options.binding === opt.label
-                                    ? "border-green-500 bg-green-50"
-                                    : "border-gray-300"
-                            }`}
-                            onClick={() =>
-                                setOrderData({
-                                    ...orderData,
-                                    options: { ...orderData.options, binding: opt.label },
-                                })
-                            }
-                        >
-                            <img src={opt.img} alt={opt.label} className="w-12 h-12 mb-2" />
-                            <span
-                                className={`font-semibold ${
-                                    orderData.options.binding === opt.label
-                                        ? "text-gray-900"
-                                        : "text-gray-400"
-                                }`}
-                            >
-                                {opt.label}
-                            </span>
-                            <input
-                                type="checkbox"
-                                checked={orderData.options.binding === opt.label}
-                                readOnly
-                                className="mt-2"
-                            />
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {/* Sub step 4: Lamination */}
-            {subStep === 4 && (
-                <div className="flex gap-4 mb-4 justify-center">
-                    {[
-                        { label: "None", img: "/none.png" },
-                        { label: "Lamination", img: "/lamination.png" },
-                    ].map((opt) => (
-                        <button
-                            key={opt.label}
-                            className={`py-8 border rounded-lg w-40 flex flex-col items-center shadow-md ${
-                                orderData.options.lamination === opt.label
-                                    ? "border-green-500 bg-green-50"
-                                    : "border-gray-300"
-                            }`}
-                            onClick={() =>
-                                setOrderData({
-                                    ...orderData,
-                                    options: { ...orderData.options, lamination: opt.label },
-                                })
-                            }
-                        >
-                            <img src={opt.img} alt={opt.label} className="w-12 h-12 mb-2" />
-                            <span
-                                className={`font-semibold ${
-                                    orderData.options.lamination === opt.label
-                                        ? "text-gray-900"
-                                        : "text-gray-400"
-                                }`}
-                            >
-                                {opt.label}
-                            </span>
-                            <input
-                                type="checkbox"
-                                checked={orderData.options.lamination === opt.label}
-                                readOnly
-                                className="mt-2"
-                            />
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {/* Navigation */}
-            <div className="flex gap-2 mt-4">
-                <button onClick={prevSubStep} className="px-4 py-2 border rounded-lg">
-                    Back
-                </button>
-                <button onClick={nextSubStep} className="px-6 py-2 bg-green-500 text-white rounded-lg">
-                    {subStep === 4 ? "Next" : "Continue"}
-                </button>
-            </div>
+  return (
+    <div className="bg-[#f2fbfa] min-h-screen py-14">
+      <div className="text-black">
+        <div className="flex justify-center">
+          <h2
+            className={`text-4xl font-bold mb-4 text-gray-700 ${heading.className}`}
+          >
+            What can we do for your printing?
+          </h2>
         </div>
-    );
+        <div className="flex justify-center text-xl text-gray-600 font-bold">
+          <p>Select printing options</p>
+        </div>
+      </div>
+
+      {/* Progres*/}
+      <div className="flex gap-4 mb-6 justify-center items-center">
+        <span
+          className={
+            Number(subStep) >= 1 ? "text-green-600 font-bold" : "text-gray-500"
+          }
+        >
+          Colour
+        </span>
+        <span
+          className={`text-2xl ${
+            Number(subStep) >= 2 ? "text-green-600" : "text-gray-400"
+          }`}
+        >
+          —
+        </span>
+        <span
+          className={
+            Number(subStep) >= 2 ? "text-green-600 font-bold" : "text-gray-500"
+          }
+        >
+          Sides
+        </span>
+        <span
+          className={`text-2xl ${
+            Number(subStep) >= 3 ? "text-green-600" : "text-gray-400"
+          }`}
+        >
+          —
+        </span>
+        <span
+          className={
+            Number(subStep) >= 3 ? "text-green-600 font-bold" : "text-gray-500"
+          }
+        >
+          Binding
+        </span>
+        <span
+          className={`text-2xl ${
+            Number(subStep) >= 4 ? "text-green-600" : "text-gray-400"
+          }`}
+        >
+          —
+        </span>
+        <span
+          className={
+            Number(subStep) >= 4 ? "text-green-600 font-bold" : "text-gray-500"
+          }
+        >
+          Lamination
+        </span>
+      </div>
+
+      {subStep === 1 && (
+  <div className="flex gap-6 mb-6 justify-center">
+    {[
+      { label: "Black & White", defaultImg: "/brush.png", activeImg: "/brush.png" },
+      { label: "Colour", defaultImg: "/brush.png", activeImg: "/brushimage.jpg" },
+    ].map((opt) => {
+      const isSelected = orderData.options.colour === opt.label;
+      return (
+        <button
+          key={opt.label}
+          className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+            isSelected
+              ? "border border-t"
+              : " bg-white"
+          }`}
+          onClick={() =>
+            setOrderData({
+              ...orderData,
+              options: { ...orderData.options, colour: opt.label },
+            })
+          }
+        >
+          <img
+            src={isSelected ? opt.activeImg : opt.defaultImg}
+            alt={opt.label}
+            className="w-20 h-20 mb-2 transition-all duration-100"
+          />
+          <span
+            className={`font-semibold ${
+              isSelected ? "text-gray-900" : "text-gray-400"
+            }`}
+          >
+            {opt.label}
+          </span>
+          <input
+            type="checkbox"
+            checked={isSelected}
+            readOnly
+            className="mt-2 w-5 h-5"
+          />
+        </button>
+      );
+    })}
+  </div>
+)}
+
+
+      {subStep === 2 && (
+        <div className="flex gap-6 mb-6 justify-center">
+          {[
+            { label: "Single-Sided", defaultImg: "/singleside.jpg",activeImg:"/singleside.jpg" },
+            { label: "Double-Sided", defaultImg: "/singleside.jpg",activeImg:"/doubleside.jpg"},
+          ].map((opt) => {
+            const isSelected = orderData.options.sides === opt.label;
+            return(
+                <button
+              key={opt.label}
+              className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+                isSelected
+                 ? "border border-t"
+              : " bg-white"
+              }`}
+              onClick={() =>
+                setOrderData({
+                  ...orderData,
+                  options: { ...orderData.options, sides: opt.label },
+                })
+              }
+            >
+              <img src={isSelected ? opt.activeImg : opt.defaultImg} alt={opt.label} className="w-20 h-20 mb-2" />
+              <span
+                className={`font-semibold ${
+                  orderData.options.sides === opt.label
+                    ? "text-gray-900"
+                    : "text-gray-400"
+                }`}
+              >
+                {opt.label}
+              </span>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                readOnly
+                className="mt-2 w-5 h-5"
+              />
+            </button>
+            )
+           
+        })}
+        </div>
+      )}
+
+      {subStep === 3 && (
+        <div className="flex gap-6 mb-6 justify-center">
+          {[
+            { label: "None", defaultImg: "/notbind.jpg" ,activeImg:"/notbindcolor.jpg"},
+            { label: "Binding", defaultImg: "/defbind.jpg",activeImg:"/bindimage.jpg" },
+          ].map((opt) => {
+            const isSelected = orderData.options.binding === opt.label;
+            return(
+            <button
+              key={opt.label}
+              className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+                isSelected
+                   ? "border border-t"
+              : " bg-white"
+              }`}
+              onClick={() =>
+                setOrderData({
+                  ...orderData,
+                  options: { ...orderData.options, binding: opt.label },
+                })
+              }
+            >
+              <img src={isSelected ? opt.activeImg : opt.defaultImg} alt={opt.label} className="w-20 h-20 mb-2" />
+              <span
+                className={`font-semibold ${
+                  orderData.options.binding === opt.label
+                    ? "text-gray-900"
+                    : "text-gray-400"
+                }`}
+              >
+                {opt.label}
+              </span>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                readOnly
+                className="mt-2 w-5 h-5"
+              />
+            </button>
+
+            )
+            
+            })}
+        </div>
+      )}
+
+      {subStep === 4 && (
+        <div className="flex gap-6 mb-6 justify-center">
+          {[
+            { label: "None", defaultImg: "/colordeflam.jpg" ,activeImg:"/deflam.jpg"},
+            { label: "Lamination", defaultImg: "/colordeflam.jpg",activeImg:"/colorlamination.jpg" },
+          ].map((opt) => {
+            const isSelected = orderData.options.lamination === opt.label;
+            return(
+                 <button
+              key={opt.label}
+              className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+                isSelected
+                  ? "border border-t"
+              : " bg-white"
+              }`}
+              onClick={() =>
+                setOrderData({
+                  ...orderData,
+                  options: { ...orderData.options, lamination: opt.label },
+                })
+              }
+            >
+              <img src={isSelected?opt.defaultImg : opt.activeImg} alt={opt.label} className="w-20 h-20 mb-2" />
+              <span
+                className={`font-semibold ${
+                  orderData.options.lamination === opt.label
+                    ? "text-gray-900"
+                    : "text-gray-400"
+                }`}
+              >
+                {opt.label}
+              </span>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                readOnly
+                className="mt-2 w-5 h-5"
+              />
+            </button>
+            )
+           
+        })}
+        </div>
+      )}
+
+     <div className="flex justify-center">
+  <div className="w-[50%] bg-white rounded-lg shadow-md p-4 border">
+    <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden mb-4">
+      <div
+        className="h-2 bg-[#026766] rounded-full transition-all duration-500 ease-in-out"
+        style={{
+          width: `${(subStep / 4) * 100}%`, 
+        }}
+      />
+    </div>
+    
+    <div className="flex gap-6 text-gray-500 font-semibold">
+      <span
+        className={`${
+          subStep === 1 ? "text-black font-bold" : orderData.options.colour ? "text-black" : "text-gray-400"
+        }`}
+      >
+        {orderData.options.colour ? `✔ ${orderData.options.colour}` : "Black & White"}
+      </span>
+       <span
+        className={`${
+          subStep === 2 ? "text-black font-bold" : orderData.options.sides ? "text-black" : "text-gray-400"
+        }`}
+      >
+       {subStep >=2 ? `✔ ${orderData.options.sides}` : ""}
+      </span>
+
+      <span
+        className={`${
+          subStep === 2 ? "text-black font-bold" : orderData.options.binding? "text-black" : "text-gray-600"
+        }`}
+      >
+        {subStep >= 3 ? `✔ ${orderData.options.binding}` : ""}
+      </span>
+      <span
+        className={`${
+          subStep === 4 ? "text-black font-bold" : orderData.options.lamination ? "text-black" : "text-gray-400"
+        }`}
+      >
+        {subStep >= 4 ? `✔ ${orderData.options.lamination}` : ""}
+      </span>
+     
+    </div>
+  </div>
+</div>
+
+
+      {/* Navigation */}
+      <div className="flex gap-4 mt-8 justify-center">
+        <button
+          onClick={prevSubStep}
+          className="px-6 py-3 font-bold cursor-pointer text-gray-500"
+        >
+          Back
+        </button>
+
+        {subStep < 4 ? (
+            <button
+          onClick={nextSubStep}
+          className="px-15 py-3 bg-[#026766] text-white font-semibold rounded-lg shadow cursor-pointer hover:bg-[#027876]"
+        >
+         CONTINUE
+        </button> 
+        ):(
+         <button
+          onClick={nextSubStep}
+          className="px-16 py-3 bg-[#026766] text-white font-semibold rounded-lg shadow cursor-pointer hover:bg-[#027876]"
+        >
+        NEXT
+        </button>
+           
+        )}
+      </div>
+    </div>
+  );
 }

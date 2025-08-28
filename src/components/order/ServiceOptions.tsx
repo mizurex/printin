@@ -4,8 +4,15 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { Merriweather } from "next/font/google";
 
-// Fix default marker issue
+
+const heading = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"], 
+});
+
+
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -115,69 +122,82 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
   };
 
   return (
-    <div>
-      <div className="flex justify-center text-black mb-8">
-        <h2 className="text-4xl font-bold">Last clicks to complete your order</h2>
+    <div className="bg-[#f2fbfa] min-h-screen py-14">
+      <div className="flex justify-center  text-black mb-10">
+        <h3 className={`text-4xl font-bold text-gray-700 ${heading.className}`}>Last clicks to complete your order</h3>
       </div>
 
       {!showDetails ? (
-        // STEP 1: Delivery vs Pickup Selection
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div
-              onClick={() => handleMethodChange("delivery")}
-              className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
-                selectedMethod === "delivery"
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  type="radio"
-                  name="serviceMethod"
-                  checked={selectedMethod === "delivery"}
-                  onChange={() => handleMethodChange("delivery")}
-                  className="w-5 h-5"
-                />
-                <div>
-                  <h3 className="text-xl font-semibold">🚚 Delivery</h3>
-                  <p className="text-gray-600">We'll deliver to your address</p>
-                </div>
-              </div>
-            </div>
+        <div className="space-y-6 py-5">
+          <div className="">
+          <div className="flex gap-6 mb-6 justify-center">
+  <button
+    className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border  ${
+      selectedMethod === "delivery"
+        ? "border border-t"
+              : " bg-white"
+    }`}
+    onClick={() => handleMethodChange("delivery")}
+  >
+    <img
+      src="/delivery.png"
+      alt="Delivery"
+      className="w-20 h-20 mb-2 transition-all duration-100"
+    />
+    <h3
+      className={`text-xl font-semibold ${
+        selectedMethod === "delivery" ? "text-gray-900" : "text-gray-400"
+      }`}
+    >
+      Delivery to me
+    </h3>
+    <input
+      type="checkbox"
+      checked={selectedMethod === "delivery"}
+      readOnly
+      className="mt-2 w-5 h-5"
+    />
+  </button>
 
-            <div
-              onClick={() => handleMethodChange("pickup")}
-              className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
-                selectedMethod === "pickup"
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  type="radio"
-                  name="serviceMethod"
-                  checked={selectedMethod === "pickup"}
-                  onChange={() => handleMethodChange("pickup")}
-                  className="w-5 h-5"
-                />
-                <div>
-                  <h3 className="text-xl font-semibold">📍 Pickup</h3>
-                  <p className="text-gray-600">Collect from our store</p>
-                </div>
-              </div>
-            </div>
+  {/* Pickup Card */}
+  <button
+    className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+      selectedMethod === "pickup"
+        ? "border border-t"
+              : " bg-white"
+    }`}
+    onClick={() => handleMethodChange("pickup")}
+  >
+    <img
+      src="/pickup.png"
+      alt="Pickup"
+      className="w-20 h-20 mb-2 transition-all duration-100"
+    />
+    <h3
+      className={`text-xl font-semibold ${
+        selectedMethod === "pickup" ? "text-gray-900" : "text-gray-400"
+      }`}
+    >
+      I&apos;ll collect it
+    </h3>
+    <input
+      type="checkbox"
+      checked={selectedMethod === "pickup"}
+      readOnly
+      className="mt-2 w-5 h-5"
+    />
+  </button>
+</div>
+
           </div>
 
           <div className="flex justify-center">
-            <button
-              onClick={handleNext}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
-            >
-              Continue
-            </button>
+             <button
+          onClick={handleNext}
+          className="px-15 py-3 bg-[#026766] text-white font-semibold rounded-lg shadow cursor-pointer hover:bg-[#027876]"
+        >
+         CONTINUE
+        </button> 
           </div>
         </div>
       ) : (
@@ -238,22 +258,18 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
               </div>
             </div>
           ) : (
-            // Pickup Map
             <div className="space-y-4">
-              <h3 className="text-2xl font-semibold mb-4">Select Pickup Store</h3>
+              <div className="flex justify-center">
+                <h3 className="text-xl font-semibold mb-4 text-gray-600">Select Your Pickup Store</h3>
+              </div>
               
-              {orderData.service.pickup.selected && orderData.service.pickup.storeAddress && (
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-green-800">
-                    <strong>Selected Store:</strong> {orderData.service.pickup.storeAddress}
-                  </p>
-                </div>
-              )}
+              
+           
 
               <div className="h-[400px] border rounded-lg overflow-hidden">
                 <MapContainer
-                  center={[22.9734, 78.6569]} // India center
-                  zoom={5}
+                  center={[22.9734, 78.6569]} 
+                  zoom={7}
                   style={{ height: "100%", width: "100%" }}
                 >
                   <TileLayer
@@ -271,7 +287,7 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
                           </div>
                           <button
                             onClick={() => handleStoreSelect(store)}
-                            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="w-full cursor-pointer px-4 py-2 bg-[#026766] text-white rounded-lg hover:bg-[#037f7d] transition-colors"
                           >
                             Select This Store
                           </button>
@@ -281,40 +297,70 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
                   ))}
                 </MapContainer>
               </div>
+                  
+                  <div className="flex justify-center items-center">
+  <div className="w-full max-w-md shadow-lg border rounded-lg p-4 bg-white">
+    
+    {/* Store Info */}
+    <div className="flex justify-between items-start">
+      <div>
+          {orderData.service.pickup.selected && orderData.service.pickup.storeAddress && (
+      <div className="mt-4 p-4  border rounded-lg">
+        <p className="text-black font-bold">
+          <span className="text-stone-900">Selected Store:</span> {orderData.service.pickup.storeAddress}
+        </p>
+      </div>
+    )}
+        <p className="mt-2">
+          <span className="text-[#026766]  font-bold">Closed</span> - 
+          <span className="font-semibold text-gray-800"> Opens at 00:00</span>
+        </p>
+      </div>
+    
+    </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Preferred Pickup Date
-                </label>
-                <input
-                  type="date"
-                  value={orderData.service.date}
-                  onChange={(e) => handleDateChange(e.target.value)}
-                  min={new Date().toISOString().split("T")[0]}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+    {/* Date Picker */}
+    <div className="mt-6">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Preferred Pickup Date
+      </label>
+      <input
+        type="date"
+        value={orderData.service.date}
+        onChange={(e) => handleDateChange(e.target.value)}
+        min={new Date().toISOString().split("T")[0]}
+        className="w-full p-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+
+   
+  
+  </div>
+</div>
+
+             
+              
             </div>
           )}
 
-          <div className="flex justify-between items-center pt-6">
+          <div className="flex justify-center space-x-16 items-center pt-6">
             <button
               onClick={() => setShowDetails(false)}
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+           className="px-6 py-3 font-bold cursor-pointer text-gray-500 transition-all"
             >
               Back to Options
             </button>
             
             <button
               onClick={nextStep}
-              disabled={!isFormValid()}
-              className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
+              disabled={!isFormValid()}     
+          className={`px-15 py-3 bg-[#026766] text-white font-semibold rounded-lg shadowursor-pointer transition-colors ${
                 isFormValid()
-                  ? "bg-green-600 text-white hover:bg-green-700"
+                  ? "bg-[#026766] text-white cursor-pointer hover:bg-[#027876] "
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >
-              Continue to Checkout
+               CHECKOUT
             </button>
           </div>
         </div>

@@ -5,6 +5,14 @@ import dynamic from "next/dynamic";
 import MovingCards from "./ui/MovingCards";
 import { motion } from "motion/react";
 import Footer from "./Footer";
+import TestimonialCard from "./MovingCards";
+import { Merriweather } from "next/font/google";
+
+
+const heading = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"], 
+});
 
 const Map = dynamic(() => import("../components/Map"), { ssr: false });
 export default function Hero() {
@@ -68,11 +76,10 @@ export default function Hero() {
         className="object-cover md:hidden"
       />
         <Image
-        src="/hero.jpeg"
+        src="/upscale.jpg"
         alt="Hero background for mobile"
         fill
         priority
-        quality={80}
          className="object-cover hidden md:block"
       />
 
@@ -83,38 +90,37 @@ export default function Hero() {
       <div className="relative z-10">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center text-center py-16 md:py-24">
-            {/* Heading */}
-            <h1 className="max-w-4xl text-3xl md:text-5xl font-extrabold tracking-tight mt-25 text-gray-900">
-              Quick and Easy Document Printing Near Me
+            
+            <h1 className={`max-w-4xl text-3xl md:text-3xl font-extrabold tracking-tight mt-25 text-gray-700 ${heading.className}`}>
+              Document Printing Made Quick And Easy Near You
             </h1>
 
           
-            <p className="mt-4 max-w-3xl text-base md:text-xl text-gray-700">
+            <p className="mt-3 max-w-2xl text-base md:text-xl text-gray-700">
               On-demand A4 printing with next-day delivery or seamless click-and-collect
             </p>
 
             
             <div className="mt-10 grid w-[40p] max-w-xl grid-cols-1 gap-6 sm:grid-cols-2">
-              {/* A4 card */}
-              <div className="rounded-2xl bg-white shadow-xl p-6">
+              <div className=" bg-white shadow-xl p-10 border border-t">
                 <div className="text-2xl text-black font-semibold">A4 Printing</div>
                 <div className="mt-4 flex items-center justify-center">
-                  <span className="inline-flex items-center gap-2 rounded-lg border px-3 py-1">
+                  <span className="inline-flex items-center gap-2 border px-3 py-1">
                     <span className="text-sm text-black">Selected</span>
-                    <span className="h-4 w-4 rounded-sm bg-black" />
+                    <span className="h-4 w-4  bg-black text-white" > 
+                      ^ </span>
                   </span>
                 </div>
               </div>
-
              
-              <div className="rounded-2xl bg-white/100 shadow p-6 opacity-80">
+              <div className=" bg-white shadow-xl p-10 border border-t opacity-80">
                 <div className="text-2xl font-semibold text-black">A3 Printing</div>
                 <div className="mt-4 text-black">Coming soon</div>
               </div>
             </div>
 
           
-            <button className="mt-8 inline-flex items-center justify-center rounded-xl bg-black px-8 py-4 text-white font-semibold shadow-lg hover:bg-emerald-700 active:scale-[.99]">
+            <button className="mt-20 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg inline-flex items-center justify-center rounded-xl bg-[#026766] px-8 py-4 text-white font-semibold shadow-lg cursor-pointer active:scale-[.99]">
               ORDER NOW
             </button>
           </div>
@@ -122,17 +128,17 @@ export default function Hero() {
       </div>
     </section>
 
-     <section className="bg-white text-gray-700 py-12 px-4">
+     <section className="bg-white text-gray-700 py-12  ">
       <div className="text-center mb-8">
-        <h3 className="text-5xl font-bold">Instant Quote</h3>
+        <h3 className={`text-4xl font-bold text-gray-800 ${heading.className}`}>Get Instant Quote</h3>
         <p className="text-xl font-light mt-2">
           Upload your document & choose your printing options to get an instant
           quote.
         </p>
       </div>
+      <div className="flex items-center px-55">
 
-      {/* Main Box */}
-      <div className="border rounded-2xl shadow-xl p-10 flex flex-col lg:flex-row gap-12">
+        <div className="border  shadow-xl p-10 flex flex-col lg:flex-row gap-12 w-[70vw] ">
         {/* Left: Product + Upload */}
         <div className="flex-1 space-y-6">
           <h2 className="text-2xl font-semibold">Product</h2>
@@ -212,17 +218,19 @@ export default function Hero() {
           </button>
         </div>
       </div>
+      </div>
+      
     </section>
-    <section className="bg-white text-black">
+    <section className="bg-white text-black mt-3.5">
         <div>
             <div>
                 <div className="flex justify-center">
-                    <h2 className="text-4xl font-medium"> 
+                    <h2 className={`text-3xl  font-bold text-gray-800 ${heading.className}`}> 
                         Instant Printing Near Me
                     </h2>
                 </div>
                 <div className="flex justify-center">
-                    <span className="font-light text-2xl">
+                    <span className="font-light text-xl">
                         Choose delivery to your door, or collect from over 400 convenient locations nationwide.
                     </span>
                 </div>
@@ -232,28 +240,29 @@ export default function Hero() {
             </div>
         </div>
     </section>
-   <section className="bg-white text-black">
-  <h1 className="text-center text-3xl font-bold my-6">
+   <section className="bg-white text-black mt-6 py-8">
+  <h1 className={`text-center text-3xl font-bold my-6 ${heading.className}`}>
     Explore Collect Locations
   </h1>
-  <div className="mx-auto w-[60vw] h-[40vh] flex justify-center items-center  overflow-hidden ">
+  <span className="flex justify-center text-xl font-bold text-gray-500">find the nearest Click & Check Price </span>
+  <div className="mx-auto w-[80vw] h-[60vh] flex justify-center items-center  overflow-hidden ">
     <Map />
   </div>
 </section>
+
 <section className="bg-white text-black">
     <div>
-        <div>
-            <h4 className="text-6xl font-mono">Proudly serving over 675,000 happy customers since 2014</h4>
+        <div className="flex justify-center">
+            <h4 className={`text-3xl text-gray-800 font-bold ${heading.className}`}>Proudly serving over 675,000 happy customers since 2014</h4>
         </div>
-        <div>
-            <p>
+        <div className="flex justify-center">
+            <p className="text-xl font-extralight text-gray-600">
                 We think our print services are awesome. But don't take our word for it
             </p>
         </div>
-        <div>
+        <div className="text-xl items-center text-center font-extralight text-gray-600">
             <h2>
                 Trustpilot reviews
-
             </h2>
 
             <span>
@@ -262,49 +271,45 @@ export default function Hero() {
         </div>
     </div>
     <div>
-       <MovingCards/>
+       <TestimonialCard />
     </div>
-
 </section>
-<section className="bg-gray-200 text-black">
-    <div>
-        <h4>
+
+<section className="bg-[#f9f9f9] text-black py-10 px-16 h-[40vh]">
+    <div className="flex justify-center">
+        <h4 className={`${heading.className} text-3xl font-bold text-gray-800`}>
             A complete solution for your team's printing
         </h4>
     </div>
-    <div>
-        <p>
+    <div className="flex justify-center mt-3.5">
+        <p className="text-xl text-gray-500">
             We’ve helped 400,000+ businesses and individuals with their everyday printing. Whether your team needs just a few pages or a few thousand, we’ll securely ship from our facilities to any UK address in a matter of one working day.
         </p>
     </div>
-    <div>
-        <button className="px-5 py-4">
-            SignUp For Free
-        </button>
+    <div className="flex justify-center mt-10">
+         <button className="transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg inline-flex items-center justify-center rounded-xl bg-[#026766] px-8 py-4 text-white font-semibold shadow-lg cursor-pointer active:scale-[.99]">
+              SignUp Now
+          </button>
     </div>
 </section>
 
 <section className="bg-white text-black relative">
   <div className="text-center py-6">
-    <h2 className="text-3xl font-bold">We Print Responsibly</h2>
+    <h2 className={`${heading.className} text-3xl font-bold text-gray-800`}>We Print Responsibly</h2>
   </div>
 
-  <div className="relative w-full h-[70vh]">
-    {/* Background Image */}
+  <div className="relative w-full h-[100vh]">
     <img
       src="/doggy2.png"
       alt="Sustainability"
       className="w-full h-full object-cover"
     />
-
-    {/* Overlay Text */}
-    <div className="absolute inset-0 flex items-start justify-center">
-      <p className="text-xl md:text-2xl font-bold max-w-4xl text-center mt-10 px-4">
-        We're committed to making your printing sustainable. To do this, we
-        always give back more than we take. For every 5,000 pages we print, we
-        plant a tree, which provides paper for 8,500 new pages and absorbs 48
-        pounds of CO2 per year. So, the more you print, the more you save –
-        literally. Read about our sustainability commitments and partnerships.
+    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 flex items-start justify-center w-full">
+      <p className="text-xl md:text-2xl text-gray-600 font-extralight max-w-3xl text-center px-4">
+      We're committed to making your printing sustainable. To do this, we
+      always give back more than we take. For every 5,000 pages we print, we
+      plant a tree, which provides paper for 8,500 new pages and absorbs 48
+      pounds of CO2 per year.
       </p>
     </div>
   </div>
@@ -313,7 +318,7 @@ export default function Hero() {
 
 
 
-<section className="bg-white px-20 text-black py-8">
+<section className="bg-white px-20 text-black py-20">
     <div className="flex flex-col lg:flex-row items-center gap-8">
         {/* Image Section */}
         <div className="flex-1">
@@ -322,7 +327,7 @@ export default function Hero() {
 
         {/* Text Section */}
         <div className="flex-1 space-y-6">
-            <h2 className="text-3xl font-bold">
+            <h2 className={`${heading.className} text-3xl font-bold text-gray-800`}>
                 Why choose document printing near me from Printt?
             </h2>
             <p className="text-lg leading-relaxed">
@@ -337,7 +342,10 @@ export default function Hero() {
         </div>
     </div>
 </section> 
-<section className="bg-white px-30">
+<section className="bg-white px-30 py-10">
+          <div className="flex justify-center">
+            <h3 className={`${heading.className} text-3xl text-gray-800`}>Common questions about Printt</h3>
+          </div>
     <div className="space-y-4">
         {[
             {
