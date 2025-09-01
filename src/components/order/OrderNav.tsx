@@ -2,32 +2,44 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useOrderStore } from "@/lib/store";
+import ProfileDropdown from "../ProfileDropdown";
 
 interface OrderNavProps {
-  step: number;
-  user?: { name: string; avatar?: string } | null; 
+ 
+  session?: any; 
 }
 
-export default function OrderNav({ step, user }: OrderNavProps) {
+export default function OrderNav({ session }: OrderNavProps) {
   const steps = ["Files", "Options", "Service", "Checkout"];
-  const [language] = useState("English"); // example, later make dropdown
+  const [language] = useState("English"); 
+  const {step} = useOrderStore();
 
   return (
-    <header className="w-full border-b bg-white">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+    <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 bg-white border-b  h-16">
+      <div className="flex items-center space-x-2">
+      <Link href="/#"> 
+         <img
+          src="/logo.png"
+          alt="logo"
+          className="h-15 md:h-18 w-16 cursor-pointer"
+          style={{ maxHeight: "48px" }}
+        />
+        </Link>
+        </div>    
     
-        <div className="flex items-center space-x-6">
-          
+        <div className="flex items-center "> 
           <nav className="hidden md:flex space-x-4 text-sm text-gray-600">
-            <a href="#">Useful for you</a>
-            <a href="#">Business</a>
-            <a href="#">Ryman</a>
-            <a href="#">Mail Boxes</a>
-            <a href="#">Students</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">For you</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">Business</a>
+        <a href="#" className="hover:text-[#026766]  cursor-pointer">Blogs</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">Mail</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">Students</a>
           </nav>
         </div>
 
-        {/* Center - Order Steps */}
+        
         <nav className="flex space-x-4 text-sm font-medium">
           {steps.map((label, index) => (
             <div key={label} className="flex items-center">
@@ -35,44 +47,32 @@ export default function OrderNav({ step, user }: OrderNavProps) {
                 className={`${
                   step === index + 1
                     ? "text-black font-semibold"
-                    : "text-gray-400"
+                    : "text-gray-600"
                 }`}
               >
                 {label}
               </span>
               {index < steps.length - 1 && (
-                <span className="mx-2 text-gray-300">—</span>
+                <span className="mx-2 text-black">━</span>
               )}
             </div>
           ))}
         </nav>
 
         {/* Right - Language + Auth */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 text-black">
           <div className="flex items-center text-sm">
             <span className="mr-1">🇬🇧</span> {language}
           </div>
-          {user ? (
-            <div className="flex items-center space-x-2">
-              {user.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt="profile"
-                  className="w-8 h-8 rounded-full"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
-                  {user.name[0].toUpperCase()}
-                </div>
-              )}
-            </div>
+          {session?.user ? (
+         <ProfileDropdown session={session}/>
           ) : (
             <a href="/login" className="text-teal-600 text-sm font-medium">
               Sign In
             </a>
           )}
         </div>
-      </div>
+      
     </header>
   );
 }

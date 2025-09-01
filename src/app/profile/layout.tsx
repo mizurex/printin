@@ -1,5 +1,5 @@
 import Navbar from "@/components/NavBar";
-import { ReactNode } from "react";
+
 import { auth } from "../../../auth";
 
 export default async function Layout ({

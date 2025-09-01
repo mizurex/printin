@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import prisma from "@/lib/prisma/prisma";
+import {prisma} from "@/lib/prisma/prisma";
 
-const stripe = new Stripe("sk_test_51S0P03RHYFZQ6yU5hcTqItNS5V9vzZ9vzgsqINF8OnCYq5R7c5rWaPYl5hB5mbC7EUJKVdhNOgKfD9yb6CXS0RLh00I7go5GoI");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
 export async function POST(req: Request) {
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(
       body,
       sig,
-      "whsec_0c18c280e415ab6a4c1a26c070e5d5c1e9c54fcf2e105e47bf40fbd3f10f0dd9" 
+      process.env.STRIPE_WEBHOOK_SECRET || ""
     );
 
     if (event.type === "checkout.session.completed") {
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       if (orderId) {
         await prisma.order.update({
           where: { id: Number(orderId) },
-          data: { order_status: "PAID" }, 
+          data: { status: "PAID" }, 
         });
       }
     }

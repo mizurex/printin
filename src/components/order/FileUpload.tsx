@@ -3,27 +3,34 @@ import { useState } from "react";
 import { Merriweather } from "next/font/google";
 import {motion} from "motion/react"
 import { BiRightArrow } from "react-icons/bi";
+import { useOrderStore } from "@/lib/store";
+import Footer from "../Footer";
 
 const heading = Merriweather({
   subsets: ["latin"],
   weight: ["400", "700"], 
 });
 
-type Props = {
-  orderData: any;
-  setOrderData: (data: any) => void;
-  nextStep: () => void;
-};
 
-export default function FileUpload({ orderData, setOrderData, nextStep }: Props) {
+
+export default function FileUpload() {
+  const { orderData, setOrderData, nextStep } = useOrderStore();
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const uploaded = Array.from(e.target.files);
-      setFiles(uploaded);
-      setOrderData({ ...orderData, files: uploaded });
+      const selectedFiles = Array.from(e.target.files);
+      setFiles(selectedFiles); 
+  
+      const file = selectedFiles[0]; 
+      setOrderData({
+        ...orderData,
+        files: {
+          url: URL.createObjectURL(file),
+          type: file.type,
+        },
+      });
     }
   };
 
@@ -42,27 +49,30 @@ export default function FileUpload({ orderData, setOrderData, nextStep }: Props)
       const json = await res.json();
 
       if (json.success) {
-        console.log("Cloudinary URLs:", json.files);
-        setOrderData({ ...orderData, fileUrls: json.files });
+        console.log("Cloudinary URL:", json.files[0].secure_url);
+        setOrderData({ ...orderData, files:{
+          ...orderData.files,
+          url:json.files[0].secure_url,
+          type:json.files[0].format,
+        }});
         nextStep();
       } else {
         alert("Upload failed, please try again");
-        setFiles([]);
-        setOrderData({ ...orderData, files: [] });
+        setOrderData({ ...orderData, files: { url: "", type: "" } });
       }
     } catch (err) {
       console.error(err);
       alert("Something went wrong while uploading");
       setFiles([]);
-      setOrderData({ ...orderData, files: [] });
+      setOrderData({ ...orderData, files: { url: "", type: "" } });
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <div className="text-black pt-14 bg-[#f2fbfa] h-screen">
-      <h2 className={`text-4xl font-bold mb-4 text-center text-gray-700 ${heading.className}`}>Upload the files you want to print</h2>
+    <div className="text-black pt-14 bg-[#f2fbfa] items-center justify-center overflow-x-hidden">
+      <h2 className={`md:text-4xl text-2xl font-bold mb-4 text-center md:mt-0 mt-10 mx-auto max-w-4xl text-gray-700 ${heading.className}`}>Upload the files you want to print</h2>
 
       <motion.div 
       whileHover={{
@@ -70,7 +80,7 @@ export default function FileUpload({ orderData, setOrderData, nextStep }: Props)
         transition:{duration:0.1}
       }}
       whileTap={{ scale: 0.9 }}
-      className="w-[85vw] cursor-pointer
+      className="md:w-[90vw] w-[85vw] cursor-pointer
       mt-12 mx-auto border bg-[#f6f9f9] border-black flex justify-center h-[20vh] items-center">
         <label className="cursor-pointer text-black px-4 py-2 h-fit rounded-lg inline-block">
           Drag and drop your files here or <span className="font-bold text-[#026766]">BROWSE</span>
@@ -78,7 +88,7 @@ export default function FileUpload({ orderData, setOrderData, nextStep }: Props)
         </label>
       </motion.div>
 
-      <div className="mt-4 mx-50">
+      <div className="mt-4 mx-50 text-center">
         {files.map((file, i) => (
           <p key={i} className="text-black font-medium text-2xl ">{file.name}  <span> <BiRightArrow/> </span></p> 
         ))}
@@ -97,6 +107,10 @@ export default function FileUpload({ orderData, setOrderData, nextStep }: Props)
           {uploading ? "Uploading..." : "Next"}
         </motion.button>
       </div>
+      <div className="mt-20">
+         <Footer/>
+      </div>
+     
     </div>
   );
 }

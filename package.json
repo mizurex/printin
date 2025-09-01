@@ -14,16 +14,20 @@
     "cloudinary": "^2.7.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.542.0",
+    "mapbox-gl": "^3.14.0",
     "motion": "^12.23.12",
     "next": "15.5.0",
     "next-auth": "^5.0.0-beta.29",
     "next-cloudinary": "^6.16.0",
     "next-fonts": "^1.5.1",
+    "pigeon-maps": "^0.22.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
     "react-leaflet": "^5.0.0",
-    "stripe": "^18.4.0"
+    "react-map-gl": "^8.0.4",
+    "stripe": "^18.4.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

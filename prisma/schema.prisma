@@ -1,33 +1,41 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
   id         Int      @id @default(autoincrement())
   name       String
   email      String   @unique
-  mobile     Int      @unique
-  address    String
+  mobile     String?  // make optional, not everyone fills
+  address    String?
   created_at DateTime @default(now())
   orders     Order[]
 }
 
+model Test{
+  id            Int          @id @default(autoincrement())
+  name String
+
+}
+
 model Order {
-  id               Int         @id @default(autoincrement())
-  user_id          Int
-  order_number     Int         @unique @default(autoincrement())
-  delivery_address String
-  total_pages      Int
-  order_amount     Int
-  order_status     OrderStatus @default(PENDING)
-  documents        Document[]
-  user             User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id            Int          @id @default(autoincrement())
+  user_id       Int
+  order_number  Int          @unique @default(autoincrement())
+  service_type  ServiceType? 
+  delivery_info DeliveryInfo?
+  pickup_info   PickupInfo?
+  total_pages   Int?
+  total_amount  Float?
+  status        OrderStatus  @default(PENDING)
+  created_at    DateTime?    @default(now())
+  documents     Document[]
+  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Document {
@@ -39,6 +47,32 @@ model Document {
   print_settings Json?
   uploaded_at    DateTime @default(now())
   order          Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+}
+
+// Split out info into separate tables, so order can hold either one
+model DeliveryInfo {
+  id        Int    @id @default(autoincrement())
+  order_id  Int    @unique
+  name      String
+  address   String
+  city      String
+  postal    String
+  email     String
+  order     Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+}
+
+model PickupInfo {
+  id          Int    @id @default(autoincrement())
+  order_id    Int    @unique
+  store_id    String
+  store_name  String
+  store_addr  String
+  order       Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+}
+
+enum ServiceType {
+  DELIVERY
+  PICKUP
 }
 
 enum OrderStatus {

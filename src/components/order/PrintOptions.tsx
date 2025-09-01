@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Merriweather } from "next/font/google";
+import { useOrderStore } from "@/lib/store";
+import Footer from "../Footer";
 
 
 const heading = Merriweather({
@@ -9,19 +11,10 @@ const heading = Merriweather({
   weight: ["400", "700"],
 });
 
-type Props = {
-  orderData: any;
-  setOrderData: (data: any) => void;
-  nextStep: () => void;
-  prevStep: () => void;
-};
 
-export default function PrintOptions({
-  orderData,
-  setOrderData,
-  nextStep,
-  prevStep,
-}: Props) {
+
+export default function PrintOptions() {
+  const { orderData, setOrderData, nextStep, prevStep } = useOrderStore();
   const [subStep, setSubStep] = useState(1);
 
   const nextSubStep = () => {
@@ -45,63 +38,63 @@ export default function PrintOptions({
       <div className="text-black">
         <div className="flex justify-center">
           <h2
-            className={`text-4xl font-bold mb-4 text-gray-700 ${heading.className}`}
+            className={`text-4xl font-bold mb-4 text-center text-gray-700 ${heading.className}`}
           >
             What can we do for your printing?
           </h2>
         </div>
-        <div className="flex justify-center text-xl text-gray-600 font-bold">
+        <div className="flex justify-center text-xl text-gray-600 font-bold ">
           <p>Select printing options</p>
         </div>
       </div>
 
-      {/* Progres*/}
-      <div className="flex gap-4 mb-6 justify-center items-center">
+   
+      <div className="flex gap-4 mb-6 justify-center items-center mt-10">
         <span
           className={
-            Number(subStep) >= 1 ? "text-green-600 font-bold" : "text-gray-500"
+            Number(subStep) >= 1 ? "text-[#026766] font-bold" : "text-gray-500"
           }
         >
           Colour
         </span>
         <span
           className={`text-2xl ${
-            Number(subStep) >= 2 ? "text-green-600" : "text-gray-400"
+            Number(subStep) >= 2 ? "text-[#026766]" : "text-gray-400"
           }`}
         >
           —
         </span>
         <span
           className={
-            Number(subStep) >= 2 ? "text-green-600 font-bold" : "text-gray-500"
+            Number(subStep) >= 2 ? "text-[#026766] font-bold" : "text-gray-500"
           }
         >
           Sides
         </span>
         <span
           className={`text-2xl ${
-            Number(subStep) >= 3 ? "text-green-600" : "text-gray-400"
+            Number(subStep) >= 3 ? "text-[#026766]" : "text-gray-400"
           }`}
         >
           —
         </span>
         <span
           className={
-            Number(subStep) >= 3 ? "text-green-600 font-bold" : "text-gray-500"
+            Number(subStep) >= 3 ? "text-[#026766] font-bold" : "text-gray-500"
           }
         >
           Binding
         </span>
         <span
           className={`text-2xl ${
-            Number(subStep) >= 4 ? "text-green-600" : "text-gray-400"
+            Number(subStep) >= 4 ? "text-[#026766]" : "text-gray-400"
           }`}
         >
           —
         </span>
         <span
           className={
-            Number(subStep) >= 4 ? "text-green-600 font-bold" : "text-gray-500"
+            Number(subStep) >= 4 ? "text-[#026766] font-bold" : "text-gray-500"
           }
         >
           Lamination
@@ -109,7 +102,7 @@ export default function PrintOptions({
       </div>
 
       {subStep === 1 && (
-  <div className="flex gap-6 mb-6 justify-center">
+  <div className="flex gap-6 mb-6 justify-center mt-10">
     {[
       { label: "Black & White", defaultImg: "/brush.png", activeImg: "/brush.png" },
       { label: "Colour", defaultImg: "/brush.png", activeImg: "/brushimage.jpg" },
@@ -118,7 +111,7 @@ export default function PrintOptions({
       return (
         <button
           key={opt.label}
-          className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+          className={`p-6 md:w-50 w-[70vw] h-[20vh]  flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 mr-10 ${
             isSelected
               ? "border border-t"
               : " bg-white"
@@ -156,7 +149,7 @@ export default function PrintOptions({
 
 
       {subStep === 2 && (
-        <div className="flex gap-6 mb-6 justify-center">
+        <div className="flex gap-6 mb-6 justify-center items-center mt-10">
           {[
             { label: "Single-Sided", defaultImg: "/singleside.jpg",activeImg:"/singleside.jpg" },
             { label: "Double-Sided", defaultImg: "/singleside.jpg",activeImg:"/doubleside.jpg"},
@@ -165,7 +158,7 @@ export default function PrintOptions({
             return(
                 <button
               key={opt.label}
-              className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+              className={`p-6 md:w-50 w-[70vw] h-[20vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
                 isSelected
                  ? "border border-t"
               : " bg-white"
@@ -201,7 +194,7 @@ export default function PrintOptions({
       )}
 
       {subStep === 3 && (
-        <div className="flex gap-6 mb-6 justify-center">
+        <div className="flex gap-6 mb-6 justify-center mt-10">
           {[
             { label: "None", defaultImg: "/notbind.jpg" ,activeImg:"/notbindcolor.jpg"},
             { label: "Binding", defaultImg: "/defbind.jpg",activeImg:"/bindimage.jpg" },
@@ -210,7 +203,7 @@ export default function PrintOptions({
             return(
             <button
               key={opt.label}
-              className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+              className={`p-6 md:w-50 w-[70vw] h-[20vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
                 isSelected
                    ? "border border-t"
               : " bg-white"
@@ -247,7 +240,7 @@ export default function PrintOptions({
       )}
 
       {subStep === 4 && (
-        <div className="flex gap-6 mb-6 justify-center">
+        <div className="flex gap-4 mb-6 mx-auto justify-center mt-10 items-center">
           {[
             { label: "None", defaultImg: "/colordeflam.jpg" ,activeImg:"/deflam.jpg"},
             { label: "Lamination", defaultImg: "/colordeflam.jpg",activeImg:"/colorlamination.jpg" },
@@ -256,7 +249,7 @@ export default function PrintOptions({
             return(
                  <button
               key={opt.label}
-              className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+              className={`p-6 md:w-50 w-[70vw] h-[20vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
                 isSelected
                   ? "border border-t"
               : " bg-white"
@@ -292,7 +285,7 @@ export default function PrintOptions({
       )}
 
      <div className="flex justify-center">
-  <div className="w-[50%] bg-white rounded-lg shadow-md p-4 border">
+  <div className="md:w-[50%] w-[85vw] bg-white rounded-lg shadow-md p-4 border">
     <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden mb-4">
       <div
         className="h-2 bg-[#026766] rounded-full transition-all duration-500 ease-in-out"
@@ -364,6 +357,10 @@ export default function PrintOptions({
            
         )}
       </div>
+      <div className="mt-20">
+          <Footer/>
+      </div>
+    
     </div>
   );
 }

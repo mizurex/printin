@@ -15,6 +15,8 @@ const heading = Merriweather({
 
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import Link from "next/link";
+import Footer from "../Footer";
 
 let DefaultIcon = L.icon({
   iconUrl: iconUrl.src,
@@ -53,18 +55,37 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
 
   const handleMethodChange = (method: "delivery" | "pickup") => {
     setSelectedMethod(method);
-    setOrderData({
-      ...orderData,
-      service: {
-        ...orderData.service,
-        method,
-        pickup: {
-          ...orderData.service.pickup,
-          selected: method === "pickup",
+
+    if (method === "pickup") {
+      setOrderData({
+        ...orderData,
+        service: {
+          method: "pickup",
+          pickup: {
+            customerName: "",
+            customerEmail: "",
+            customerPhone: "",
+            storeName: "",
+            storeAddress: "",
+          },
         },
-      },
-    });
+      });
+    } else {
+      setOrderData({
+        ...orderData,
+        service: {
+          method: "delivery",
+          delivery: {
+            customerName: "",
+            customerEmail: "",
+            customerPhone: "",
+            customerAddress: "",
+          },
+        },
+      });
+    }
   };
+
 
   const handleNext = () => {
     setShowDetails(true);
@@ -74,57 +95,94 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
     setOrderData({
       ...orderData,
       service: {
-        ...orderData.service,
         method: "pickup",
         pickup: {
-          selected: true,
-          storeId: store.id,
+          ...(orderData.service.pickup ?? {
+            customerName: "",
+            customerEmail: "",
+            customerPhone: "",
+          }),
+          storeName: store.name,
           storeAddress: store.address,
         },
       },
     });
   };
 
-  const handleDeliveryChange = (field: string, value: string) => {
+
+  const handleDeliveryChange = (field: any, value: string) => {
     setOrderData({
       ...orderData,
       service: {
-        ...orderData.service,
+        method: "delivery",
         delivery: {
-          ...orderData.service.delivery,
+          ...(orderData.service.delivery ?? {
+            customerName: "",
+            customerEmail: "",
+            customerPhone: "",
+            customerAddress: "",
+          }),
           [field]: value,
         },
       },
     });
   };
 
+
   const handleDateChange = (date: string) => {
-    setOrderData({
-      ...orderData,
-      service: {
-        ...orderData.service,
-        date,
-      },
-    });
+    if (selectedMethod === "delivery") {
+      setOrderData({
+        ...orderData,
+        service: {
+          method: "delivery",
+          delivery: {
+            ...(orderData.service.delivery ?? {
+              customerName: "",
+              customerEmail: "",
+              customerPhone: "",
+              customerAddress: "",
+            }),
+            date,
+          },
+        },
+      });
+    } else {
+      setOrderData({
+        ...orderData,
+        service: {
+          method: "pickup",
+          pickup: {
+            ...(orderData.service.pickup ?? {
+              customerName: "",
+              customerEmail: "",
+              customerPhone: "",
+              storeName: "",
+              storeAddress: "",
+            }),
+            date,
+          },
+        },
+      });
+    }
   };
 
   const isFormValid = () => {
     if (selectedMethod === "delivery") {
       return (
-        orderData.service.delivery.name &&
-        orderData.service.delivery.email &&
-        orderData.service.delivery.phone &&
-        orderData.service.delivery.address
+        orderData.service.delivery?.customerName &&
+        orderData.service.delivery?.customerEmail &&
+        orderData.service.delivery?.customerPhone &&
+        orderData.service.delivery?.customerAddress
       );
     } else {
-      return orderData.service.pickup.selected && orderData.service.pickup.storeId;
+      return orderData.service.pickup?.storeName && orderData.service.pickup?.storeAddress;
     }
   };
 
   return (
     <div className="bg-[#f2fbfa] min-h-screen py-14">
       <div className="flex justify-center  text-black mb-10">
-        <h3 className={`text-4xl font-bold text-gray-700 ${heading.className}`}>Last clicks to complete your order</h3>
+        <h3 className={`md:text-5xl text-3xl font-bold text-gray-700 ${heading.className}`}>Last clicks to complete your order</h3>
       </div>
 
       {!showDetails ? (
@@ -132,7 +190,7 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
           <div className="">
           <div className="flex gap-6 mb-6 justify-center">
   <button
-    className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border  ${
+    className={`p-6 w-50 h-[20vh] md:h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border  ${
       selectedMethod === "delivery"
         ? "border border-t"
               : " bg-white"
@@ -161,7 +219,7 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
 
   {/* Pickup Card */}
   <button
-    className={`p-6 w-50 h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
+    className={`p-6 w-50 h-[20vh] md:h-[30vh]  flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
       selectedMethod === "pickup"
         ? "border border-t"
               : " bg-white"
@@ -201,10 +259,10 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
           </div>
         </div>
       ) : (
-        // STEP 2: Show details based on selection
+      
         <div className="space-y-6">
           {selectedMethod === "delivery" ? (
-            // Delivery Form
+         
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold mb-4">Delivery Details</h3>
               
@@ -264,8 +322,7 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
               </div>
               
               
-           
-
+          
               <div className="h-[400px] border rounded-lg overflow-hidden">
                 <MapContainer
                   center={[22.9734, 78.6569]} 
@@ -304,13 +361,13 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
     {/* Store Info */}
     <div className="flex justify-between items-start">
       <div>
-          {orderData.service.pickup.selected && orderData.service.pickup.storeAddress && (
-      <div className="mt-4 p-4  border rounded-lg">
-        <p className="text-black font-bold">
-          <span className="text-stone-900">Selected Store:</span> {orderData.service.pickup.storeAddress}
-        </p>
-      </div>
-    )}
+          {orderData.service.pickup && (
+  <div className="mt-4 p-4 border rounded-lg">
+    <p className="text-black font-bold">
+      {orderData.service.pickup?.storeAddress || "No store selected"}
+    </p>
+  </div>
+)}
         <p className="mt-2">
           <span className="text-[#026766]  font-bold">Closed</span> - 
           <span className="font-semibold text-gray-800"> Opens at 00:00</span>
@@ -351,8 +408,9 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
               Back to Options
             </button>
             
+            <Link href="/order/checkout">
             <button
-              onClick={nextStep}
+              
               disabled={!isFormValid()}     
           className={`px-15 py-3 bg-[#026766] text-white font-semibold rounded-lg shadowursor-pointer transition-colors ${
                 isFormValid()
@@ -362,6 +420,7 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
             >
                CHECKOUT
             </button>
+            </Link>
           </div>
         </div>
       )}
@@ -376,6 +435,10 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
           </button>
         </div>
       )}
+      <div className="mt-10">
+        <Footer/>
+      </div>
+     
     </div>
   );
 }

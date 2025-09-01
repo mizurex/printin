@@ -1,55 +1,47 @@
-import { FiUser } from "react-icons/fi";
-import { auth , signIn,signOut} from "../../auth";
+import Link from "next/link";
+import { signIn } from "../../auth";
+import ProfileDropdown from "./ProfileDropdown";
 
-export default async function Navbar() {
-  const session  = await auth();
 
+export default function Navbar({ session }: { session: any }) {
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 bg-white border-b overflow-hidden">
+    <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 bg-white border-b  h-16">
       <div className="flex items-center space-x-2">
-        <img
-          src="/printin-logo.png"
+        <Link href="/#"> 
+         <img
+          src="/logo.png"
           alt="logo"
-          className="h-12 w-auto object-contain"
+          className="h-15 md:h-18 w-16 cursor-pointer"
           style={{ maxHeight: "48px" }}
         />
+        </Link>
+       
      
       </div>
       <nav className="hidden md:flex space-x-6 text-gray-700">
-        <a href="#" className="hover:text-teal-600">Useful for you</a>
-        <a href="#" className="hover:text-teal-600">Business</a>
-        <a href="#" className="hover:text-teal-600">Ryman</a>
-        <a href="#" className="hover:text-teal-600">Mail Boxes</a>
-        <a href="#" className="hover:text-teal-600">Students</a>
+        <a href="#" className="hover:text-[#026766]cursor-pointer">For you</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">Business</a>
+        <a href="#" className="hover:text-[#026766]  cursor-pointer">Blogs</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">Mail</a>
+        <a href="#" className="hover:text-[#026766] cursor-pointer">Students</a>
       </nav>
       <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-1 text-gray-700">
-          <span>🇬🇧</span>
+        <div className="hidden md:flex items-center space-x-1 text-gray-700">
+          <span>in</span>
           <span>English</span>
         </div>
         {session && session.user ? (
-            <>
-             <FiUser/>
-            <span> welcome {session?.user?.name}</span>
-            <form action={async () => {
-                'use server'
-
-                await signOut({ redirectTo: "/" })
-            }}>
-                <button className="text-black" type="submit">
-                    logout
-                </button>
-            </form>
-            </>
-           
+            <ProfileDropdown session={session} />
         ):(
-              <form action={async ()=>{
+          
+            <form action={async ()=>{
             "use server"
             await signIn('google')}}>
-            <button type="submit" className="text-black">
-                login
+            <button type="submit" className="text-gray-700 hover:text-teal-600 cursor-pointer">
+                Sign In
             </button>
          </form>
+         
         )}
        
        
