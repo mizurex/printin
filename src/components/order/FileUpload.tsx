@@ -88,7 +88,7 @@ export default function FileUpload() {
         </label>
       </motion.div>
 
-      <div className="mt-4 mx-50 text-center">
+      <div className="mt-4 mx-auto text-center">
         {files.map((file, i) => (
           <p key={i} className="text-black font-medium text-2xl ">{file.name}  <span> <BiRightArrow/> </span></p> 
         ))}
