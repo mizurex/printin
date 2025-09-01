@@ -3,8 +3,11 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import {prisma} from "@/lib/prisma/prisma";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error("Missing STRIPE_SECRET_KEY");
+}
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export async function POST(req: Request) {
 
   try {
@@ -12,9 +15,7 @@ export async function POST(req: Request) {
   const headerList = await headers();
   const sig =  headerList.get("stripe-signature")!;
 
-  if(!process.env.STRIPE_WEBHOOK_SECRET){
-    throw new Error('Stripe webhook secret missing');
-  }
+ 
     const event = stripe.webhooks.constructEvent(
       body,
       sig,
