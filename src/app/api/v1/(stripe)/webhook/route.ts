@@ -15,11 +15,13 @@ export async function POST(req: Request) {
   const headerList = await headers();
   const sig =  headerList.get("stripe-signature")!;
 
- 
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    throw new Error("Missing Stripe Secret Key");
+  }
     const event = stripe.webhooks.constructEvent(
       body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET || ""
+      process.env.STRIPE_WEBHOOK_SECRET
     );
 
     if (event.type === "checkout.session.completed") {
