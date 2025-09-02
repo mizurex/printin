@@ -4,7 +4,7 @@ import Navbar from "@/components/NavBar";
 import { prisma } from "@/lib/prisma/prisma";
 
 export default async function OrdersPage() {
-  // ✅ fetch all orders (no user include)
+  
   const orders = await prisma.order.findMany({
     orderBy: { created_at: "desc" },
   });
