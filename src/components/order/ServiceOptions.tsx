@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+
 import { Merriweather } from "next/font/google";
+import { Map, Marker } from "pigeon-maps";
+
 
 
 const heading = Merriweather({
@@ -12,32 +12,56 @@ const heading = Merriweather({
   weight: ["400", "700"], 
 });
 
-
-import iconUrl from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import Link from "next/link";
 import Footer from "../Footer";
 
-let DefaultIcon = L.icon({
-  iconUrl: iconUrl.src,
-  shadowUrl: iconShadow.src,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-L.Marker.prototype.options.icon = DefaultIcon;
+
+
 
 type Store = {
-  id: number;
+  id: string;
   name: string;
+  address: string;
   lat: number;
   lng: number;
-  address: string;
 };
 
 const stores: Store[] = [
-  { id: 1, name: "Delhi Store", lat: 28.6139, lng: 77.209, address: "Connaught Place, Delhi" },
-  { id: 2, name: "Mumbai Store", lat: 19.076, lng: 72.8777, address: "Churchgate, Mumbai" },
-  { id: 3, name: "Bangalore Store", lat: 12.9716, lng: 77.5946, address: "MG Road, Bangalore" },
+  {
+    id: "1",
+    name: "Store One",
+    address: "123 Main St, City",
+    lat: 22.9734,
+    lng: 78.6569,
+  },
+  {
+    id: "2",
+    name: "Store Two",
+    address: "456 Market Rd, City",
+    lat: 23.5,
+    lng: 79.2,
+  },
+  {
+    id: "3",
+    name: "Store Three",
+    address: "789 Park Ave, City",
+    lat: 23.0,
+    lng: 79.0,
+  },
+  {
+    id: "4",
+    name: "Store Four",
+    address: "101 First Ave, City",
+    lat: 22.8,
+    lng: 78.8,
+  },
+  {
+    id: "5",
+    name: "Store Five",
+    address: "123 Main St, City",
+    lat: 22.9734,
+    lng: 78.6569,
+  },
 ];
 
 type Props = {
@@ -322,38 +346,28 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
               </div>
               
               
-          
-              <div className="h-[400px] border rounded-lg overflow-hidden">
-                <MapContainer
-                  center={[22.9734, 78.6569]} 
-                  zoom={7}
-                  style={{ height: "100%", width: "100%" }}
-                >
-                  <TileLayer
-                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-                  />
-
-                  {stores.map((store) => (
-                    <Marker key={store.id} position={[store.lat, store.lng]}>
-                      <Popup>
-                        <div className="space-y-3 p-2">
-                          <div>
-                            <h4 className="font-bold text-lg">{store.name}</h4>
-                            <p className="text-gray-600">{store.address}</p>
-                          </div>
-                          <button
-                            onClick={() => handleStoreSelect(store)}
-                            className="w-full cursor-pointer px-4 py-2 bg-[#026766] text-white rounded-lg hover:bg-[#037f7d] transition-colors"
-                          >
-                            Select This Store
-                          </button>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  ))}
-                </MapContainer>
-              </div>
+          <div className="h-[400px] border rounded-lg shadow-lg w-fit mx-auto flex justify-center items-center  rounded-lg">
+  <Map
+    defaultCenter={[22.9734, 78.6569]}
+    defaultZoom={7}
+    height={400}
+    width={1000}
+    provider={(x, y, z, dpr) =>
+      `https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/${z}/${x}/${y}${
+        dpr && dpr >= 2 ? "@2x" : ""
+      }.png`
+    }
+  >
+    {stores.map((store) => (
+      <Marker
+        key={store.id}
+        width={40}
+        anchor={[store.lat, store.lng]}
+        onClick={() => handleStoreSelect(store)}
+      />
+    ))}
+  </Map>
+</div>
                   
                   <div className="flex justify-center items-center">
   <div className="w-full max-w-md shadow-lg border rounded-lg p-4 bg-white">

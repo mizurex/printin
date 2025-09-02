@@ -3,7 +3,9 @@ import { signIn } from "../../auth";
 import ProfileDropdown from "./ProfileDropdown";
 
 
+
 export default function Navbar({ session }: { session: any }) {
+  
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 bg-white border-b  h-16">
       <div className="flex items-center space-x-2">

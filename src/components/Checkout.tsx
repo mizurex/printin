@@ -1,32 +1,20 @@
 "use client"
 import { useEffect ,useState} from "react";
 import { loadStripe } from '@stripe/stripe-js';
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
-import { Merriweather } from "next/font/google";
 
-import L from "leaflet";
-import dynamic from "next/dynamic";
+import { Merriweather } from "next/font/google";
+import { Map, Marker } from "pigeon-maps";
 import { useOrderStore } from "@/lib/store";
 import Footer from "./Footer";
+import Link from "next/link";
+import { ArrowDownIcon } from "lucide-react";
 
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false }
-);
-const Popup = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Popup),
-  { ssr: false }
-);
+if(!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY){
+  throw new Error("Stripe promise not found");
+}
 
-;
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
 
 
 
@@ -36,13 +24,7 @@ const heading = Merriweather({
   weight: ["400", "700"],
 });
 
-const markerIcon = new L.Icon({
-  iconUrl: "/marker-icon.png",
-  iconRetinaUrl: "/marker-icon-2x.png",
-  shadowUrl: "/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+
 
   
 export default function Checkout() {
@@ -164,9 +146,13 @@ const handleCopies = (delta: number) => {
       </div>
 
       
-      <div className="absolute bottom-6 ">
-        <p className="text-sm w-full  font-medium text-gray-600">Order Summary ▼</p>
-      </div>
+      <div className="absolute bottom-6 inset-x-0 flex justify-center gap-2 items-center">
+  <span className="animate-bounce">
+    <ArrowDownIcon  className="w-8 h-8 text-gray-700" />
+  </span>
+
+
+</div>
       </section>
     
     <section className="bg-white text-black py-10 md:w-[60vw] w-[95vw] flex flex-col md:flex-row">
@@ -184,6 +170,7 @@ const handleCopies = (delta: number) => {
                   <h3 className="text-lg font-semibold mb-2 flex justify-between items-center">
               Collect Location 
               </h3>
+              <Link href="/order">
               <button
               className="text-sm text-teal-600 cursor-pointer"
                 onClick={()=>{
@@ -191,35 +178,33 @@ const handleCopies = (delta: number) => {
                 }}>
                   Edit
               </button>
+              </Link>
+              
                 </div>
             
 
   {orderData.service.method === "pickup" ? (
-    <div className="border rounded-lg overflow-hidden  shadow-sm " >
+    <div className="border rounded-lg overflow-hidden w-fit  shadow-sm " >
       {/* Small Map */}
       <div className="h-48 w-full">
-        <MapContainer
-        center={[lat, lng]}
-          zoom={15}
-          style={{ height: "100%", width: "100%" }}
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-          />
-          <Marker
-            position={[lat, lng]}
-            icon={markerIcon}
-          >
-            <Popup>
-              <div>
-                <strong>{orderData.service.pickup?.storeName}</strong>
-                <p className="text-sm">{orderData.service.pickup?.storeAddress} </p>
-              </div>
-            </Popup>
-          </Marker>
-        </MapContainer>
+      <Map
+    defaultCenter={[22.9734, 78.6569]}
+    defaultZoom={7}
+    height={300}
+    width={300}
+    provider={(x, y, z, dpr) =>
+      `https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/${z}/${x}/${y}${
+        dpr && dpr >= 2 ? "@2x" : ""
+      }.png`
+    }
+  >
+      <Marker
+        key={1}
+        width={40}
+        anchor={[lat, lng]}
+      />
+  
+  </Map>
       </div>
 
    
@@ -260,11 +245,13 @@ const handleCopies = (delta: number) => {
             <div className="flex justify-between items-center">
                <h3 className="text-lg font-semibold mb-2">Files Uploaded: 1</h3>
                <div className="flex justify-end">
+                <Link href="/order">  
                 <button 
                 onClick={()=>{
                   setStep(1);
                 }}
                 className="text-blue-400 text-lg font-semibold mb-2 ">Edit</button>
+                </Link>
                </div>
                
             </div>
@@ -282,11 +269,13 @@ const handleCopies = (delta: number) => {
             <h3 className="text-lg md:text-2xl font-semibold mb-2">Printing Options</h3>
             <p className="text-lg font-semibold">{orderData.options.colour}, {orderData.options.sides }, {orderData.options.binding === "None" ? "" : "Binding ,"} {orderData.options.lamination === "None" ? "" : "Lamination ,"}</p>
              <div className="flex justify-end">
+              <Link href="/order"> 
               <button 
                 onClick={()=>{
                   setStep(2);
                 }}
               className="text-blue-400 text-lg font-semibold mb-2 ">Edit</button>
+              </Link>
              </div>
              
           </div>
@@ -327,12 +316,12 @@ Friday, 29th August, 12:04h, Europe/London</span>
             <div>
              <button
             onClick={handlePayment}
-            className="w-full bg-teal-600 text-white font-semibold py-3 rounded-lg shadow-md">
+            className="w-full bg-[#026766] text-white font-semibold py-3 rounded-lg shadow-md">
             PAY £{totalAmount}
           </button>
             </div>
             <div>
-              <span>By placing your order you agree to Printt’s cancellation and refund policy outlined in our Terms of Service</span>
+              <span>By placing your order you agree to Printin's cancellation and refund policy outlined in our Terms of Service</span>
             </div>
           </div>
        

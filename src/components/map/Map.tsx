@@ -70,7 +70,7 @@ export default function PriceMap() {
         </button>
       </div>
 
-      {/* 🗺️ Map */}
+    
       <Map
         height={600}
         center={center}
@@ -94,7 +94,7 @@ export default function PriceMap() {
         ))}
       </Map>
 
-      {/* 📍 Floating price labels */}
+    
       {stores.map(
         (store) =>
           selected === store.id && (
