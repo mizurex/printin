@@ -1,16 +1,18 @@
 import Checkout from "@/components/Checkout";
-import { auth } from "../../../../auth";
+import { auth } from "@/auth";
 import Redirect from "@/components/Redirect";
 
 export default async function CheckoutPage() {
-    const sesison = await auth();
-    if(!sesison?.user){
+    const session = await auth();
+    
+    if(!session?.user){
         return <Redirect/>
     }
-
+  const userId = Number(session?.user.id);
   return (
+   
     <>
-     <Checkout/>
+     <Checkout userId={userId}/>
     </>
   );
 }

@@ -24,10 +24,12 @@ const heading = Merriweather({
   weight: ["400", "700"],
 });
 
-
+interface CheckoutProps {
+  userId: number;
+}
 
   
-export default function Checkout() {
+export default function Checkout({userId}: CheckoutProps) {
 
   const { orderData, setOrderData, step, setStep } = useOrderStore();
   
@@ -53,7 +55,7 @@ export default function Checkout() {
         },
         successUrl: `${window.location.origin}/success`,
         cancelUrl: `${window.location.origin}/checkout`,
-        userId : 12344222,
+        userId : 1111,
 
       })
     });

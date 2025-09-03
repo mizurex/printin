@@ -11,10 +11,12 @@ export default async function CheckoutPage() {
     if(!session?.user){
         return <Redirect/>
     }
+
+    const userId = Number(session.user.id);
     
   return (
     <>
-    <Checkout/>
+    <Checkout userId={userId}/>
     </>
     
     

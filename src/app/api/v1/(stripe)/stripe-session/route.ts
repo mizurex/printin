@@ -10,45 +10,57 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    console.log("debug");
     const { orderSelections, successUrl, cancelUrl, userId } = body;
     const { files, options, copies, service } = orderSelections;
 
-    // ✅ make sure userId is Int
-    const parsedUserId = parseInt(userId);
-    if (isNaN(parsedUserId)) {
-      return Response.json({ error: "Invalid userId" }, { status: 400 });
-    }
+   
+    const user_id = "1111";
+   //let user = await prisma.user.findUnique({
+    //  where: { user_id: user_id },
+    //});
 
-    // ✅ ensure user exists or create dummy one
-    let user = await prisma.user.findUnique({
-      where: { id: parsedUserId },
-    });
-
-    if (!user) {
-      user = await prisma.user.create({
+   
+      const user = await prisma.user.create({
         data: {
-          id: parsedUserId, // explicitly set same ID
+          user_id: user_id, 
           name: "Test User",
-          email: `test${parsedUserId}@example.com`,
-        },
+          email: `test${user_id}@example.com`,
+        } as any,
       });
-    }
+    
 
-    // calculate total
-    const numFiles = 1;
-    const total = numFiles * copies * 5; // example calculation
+  
 
-    // ✅ create Order
+ 
     const order = await prisma.order.create({
       data: {
-        user_id: parsedUserId,
-        service_type: service.method === "delivery" ? "DELIVERY" : "PICKUP",
-        total_pages: numFiles * copies,
-        total_amount: total,
-      },
+        user_id: user_id,
+        service_type: "PICKUP",
+        pickup_info: 
+          {
+            create:{
+            store_id:"23432",
+            store_name:"test",
+            store_addr:"test"},
+
+            },
+            
+            documents: {
+              create: {
+                file_url: files.url,
+                page_count: 1,
+                color: true,
+                lamination: false,
+                binding: false,
+              } as any,
+            },
+        total_pages: 3,
+        total_amount: 200.00,
+      } as any,
     });
 
-    // ✅ create Stripe Checkout Session
+    console.log("debug");
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -56,7 +68,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: { name: "Printing Order" },
-            unit_amount: total * 100, // cents
+            unit_amount: 5 * 100, 
           },
           quantity: 1,
         },
@@ -65,8 +77,10 @@ export async function POST(req: NextRequest) {
       success_url: successUrl,
       cancel_url: cancelUrl,
     });
-
+   
     return Response.json({ id: session.id, order });
+
+  
   } catch (err) {
     console.error("Stripe error:", err);
     return Response.json({ error: "Internal server error" }, { status: 500 });
