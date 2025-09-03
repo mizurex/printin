@@ -32,6 +32,7 @@ export default function Navbar({ session }: { session: any }) {
           <span>in</span>
           <span>English</span>
         </div>
+        
         {session && session.user ? (
             <ProfileDropdown session={session} />
         ):(

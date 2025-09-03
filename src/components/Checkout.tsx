@@ -25,7 +25,7 @@ const heading = Merriweather({
 });
 
 interface CheckoutProps {
-  userId: number;
+  userId: string | undefined;
 }
 
   
@@ -55,7 +55,7 @@ export default function Checkout({userId}: CheckoutProps) {
         },
         successUrl: `${window.location.origin}/success`,
         cancelUrl: `${window.location.origin}/checkout`,
-        userId : 1111,
+        userId : userId,
 
       })
     });

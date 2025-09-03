@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "../../../auth";
+import { auth } from "@/auth";
 import Checkout from "../Checkout";
 import Redirect from "../Redirect";
 
@@ -11,12 +11,10 @@ export default async function CheckoutPage() {
     if(!session?.user){
         return <Redirect/>
     }
-
-    const userId = Number(session.user.id);
-    
+   
   return (
     <>
-    <Checkout userId={userId}/>
+      <Checkout userId={session?.user?.id}/>
     </>
     
     

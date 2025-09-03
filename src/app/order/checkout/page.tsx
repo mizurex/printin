@@ -5,14 +5,17 @@ import Redirect from "@/components/Redirect";
 export default async function CheckoutPage() {
     const session = await auth();
     
+  
+    console.log("Session user id:", session?.user?.id);
+    
     if(!session?.user){
         return <Redirect/>
     }
-  const userId = Number(session?.user.id);
+    
   return (
    
     <>
-     <Checkout userId={userId}/>
+     <Checkout userId={session?.user?.id}/>
     </>
   );
 }

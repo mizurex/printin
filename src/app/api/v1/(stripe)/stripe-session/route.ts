@@ -14,20 +14,6 @@ export async function POST(req: NextRequest) {
     const { orderSelections, successUrl, cancelUrl, userId } = body;
     const { files, options, copies, service } = orderSelections;
 
-   
-    const user_id = "1111";
-   //let user = await prisma.user.findUnique({
-    //  where: { user_id: user_id },
-    //});
-
-   
-      const user = await prisma.user.create({
-        data: {
-          user_id: user_id, 
-          name: "Test User",
-          email: `test${user_id}@example.com`,
-        } as any,
-      });
     
 
   
@@ -35,7 +21,7 @@ export async function POST(req: NextRequest) {
  
     const order = await prisma.order.create({
       data: {
-        user_id: user_id,
+        user_id: userId,
         service_type: "PICKUP",
         pickup_info: 
           {
