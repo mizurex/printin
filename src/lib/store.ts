@@ -6,19 +6,19 @@ interface FileData {
 }
 
 interface DeliveryDetails {
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
-  customerAddress: string;
+  name: string;
+  address: string;
+  city: string;
+  postal: string;
+  email: string;
+  phone: string;
   date?: string;
 }
 
 interface PickupDetails {
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
-  storeName: string;
-  storeAddress: string;
+  store_id: string;
+  store_name: string;
+  store_addr: string;
   lat: number;
   lng: number;
   date?: string;
@@ -66,17 +66,17 @@ export const useOrderStore = create<OrderStore>((set) => ({
     service: {
       method: "delivery",
       delivery: {
-        customerName: "",
-        customerEmail: "",
-        customerPhone: "",
-        customerAddress: "",
+        name: "",
+        address: "",
+        city: "",
+        postal: "",
+        email: "",
+        phone: "",
       },
       pickup: {
-        customerName: "",
-        customerEmail: "",
-        customerPhone: "",
-        storeName: "",
-        storeAddress: "",
+        store_id: "",
+        store_name: "",
+        store_addr: "",
         lat: 0,
         lng: 0,
       },

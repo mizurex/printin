@@ -2,6 +2,7 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/prisma/prisma";
+import { redirect } from "next/navigation";
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
 
@@ -22,17 +23,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const existingUser = await prisma.user.findUnique({
             where: { user_id: account.providerAccountId } as any
           });
-
+          
           if (existingUser) {
             console.log("User exists:", existingUser);
-          
-            await prisma.user.update({
+            if(existingUser.email !== "dhananjayadhal3@gmail.com"){
+              console.log("Not admin updating db");
+              await prisma.user.update({
               where: { user_id: account.providerAccountId } as any,
               data: {
                 name: user.name || existingUser.name,
-                email: user.email || existingUser.email,
               }
             });
+            }
+            else{
+            
+              console.log("Admin is here");
+            }
+            
           } else {
             console.log("Creating new user...");
          

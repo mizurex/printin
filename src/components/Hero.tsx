@@ -73,18 +73,18 @@ export default function Hero() {
       {/* mobile img */}
       <Image
         src="/mobile-hero.jpg"           
-        alt="City street background with courier and customers"
+        alt="mobile hero"
         fill
         priority
         quality={100}
         className="object-cover md:hidden"
       />
         <Image
-        src="/upscale.jpg"
-        alt="Hero background for mobile"
+        src="/hero_sec_2.png"
+        alt="deskstop hero"
         fill
         priority
-         className="object-cover hidden md:block"
+        className="object-cover hidden md:block"
       />
 
      
@@ -95,7 +95,7 @@ export default function Hero() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center text-center py-16 md:py-24">
             
-            <h1 className={`max-w-6xl md:text-4xl  text-3xl font-extrabold tracking-tight mt-25 text-gray-700 ${heading.className}`}>
+            <h1 className={`max-w-6xl md:text-4xl text-400px text-3xl font-extrabold tracking-tight mt-15 text-neutral-700 ${heading.className}`}>
               Document Printing Made Quick And Easy Near You
             </h1>
 
@@ -105,32 +105,24 @@ export default function Hero() {
             </p>
 
             
-            <div className="mt-10 grid w-[40p] max-w-xl grid-cols-1 gap-6 sm:grid-cols-2">
-              <div className=" bg-white shadow-xl p-10 border border-t">
-                <div className="text-2xl text-black font-semibold">A4 Printing</div>
-                <div className="mt-4 flex items-center justify-center">
-                  <span className="inline-flex items-center gap-2 border px-3 py-1">
-                    <div className="w-6 h-6 bg-[#026766] rounded flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span className="text-sm text-black">Selected</span>
-                  </span>
-                </div>
-              </div>
-             
-              <div className=" bg-white shadow-xl p-10 border border-t opacity-80">
-                <div className="text-2xl font-semibold text-black">A3 Printing</div>
-                <div className="mt-4 text-black">Coming soon</div>
-              </div>
-            </div>
+        
 
             <Link href="/order">
 
-             <button className="mt-20 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg inline-flex items-center justify-center rounded-xl bg-[#026766] px-8 py-4 text-white font-semibold shadow-lg cursor-pointer active:scale-[.99]">
+             <motion.button 
+               whileHover={{ 
+                 y: -2, 
+                 scale: 1.02,
+                 transition: { duration: 0.1, ease: "easeOut" }
+               }}
+               whileTap={{ 
+                 scale: 0.98,
+                 transition: { duration: 0.05 }
+               }}
+               className="mt-20 inline-flex items-center justify-center rounded-lg bg-brand hover:bg-brand/80 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg transition-all duration-100 cursor-pointer"
+             >
               ORDER NOW
-            </button>
+            </motion.button>
             </Link>
            
           </div>
@@ -161,7 +153,7 @@ export default function Hero() {
         >
           <label className="flex items-center justify-between">
             <span className="text-sm sm:text-base lg:text-lg">A4 Printing</span>
-            <input type="checkbox" checked readOnly className="toggle accent-green-600 scale-110 sm:scale-125" />
+           
           </label>
         </motion.div>
 
@@ -209,50 +201,32 @@ export default function Hero() {
      
       <div className="flex-1 space-y-4 sm:space-y-6 min-w-0">
         <h2 className="text-xl sm:text-2xl font-semibold">Printing Options</h2>
-
         <div className="space-y-4">
           {Object.entries(options).map(([key, value]) => (
             <motion.div 
             whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-            key={key} className={`flex justify-between cursor-pointer  items-center py-3 ${value ? "bg-white text-black " : "bg-[#f9f9f9] opacity-80 text-gray-400"} sm:py-4 border border-gray-100 shadow-lg rounded-lg p-4 sm:p-5 last:border-b-0`}>
-              <span className="capitalize text-sm  lg:text-lg font-bold capitalize">{key}</span>
-              <input
-                type="checkbox"
-                checked={value}
-                onChange={() =>
-                  setOptions((prev) => ({ ...prev, [key]: !prev[key as keyof typeof options] }))
-                }
-                className="toggle  scale-110 sm:scale-125 border border-gray-500 rounded-full"
-              />
+            key={key} 
+            className="flex justify-between cursor-pointer items-center py-3 sm:py-4 border border-gray-100 shadow-lg rounded-lg p-4 sm:p-5 bg-white"
+            onClick={() =>
+              setOptions((prev) => ({ ...prev, [key]: !prev[key as keyof typeof options] }))
+            }>
+              <span className="capitalize text-sm lg:text-lg font-bold text-gray-700">{key}</span>
+              <div className="relative">
+                <div className={`w-12 h-6 rounded-full transition-all duration-300 ${value ? 'bg-[#026766]' : 'bg-gray-300'}`}>
+                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-all duration-300 transform ${value ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                </div>
+              </div>
             </motion.div>
           ))}
 
          
-          <div className="flex items-center justify-between py-3 sm:py-4">
-            <span className="text-sm sm:text-base lg:text-lg font-medium">Copies</span>
-            <input
-              type="number"
-              min="1"
-              value={copies}
-              onChange={(e) =>{
-                if(Number(e.target.value) > 10){
-                  setCopies(prev=>prev)
-                }
-                else{
-                    setCopies(Number(e.target.value))
-                  }
-                }
-                
-              }
-              className="w-16 sm:w-20 lg:w-24 border border-gray-300 rounded-lg px-2 sm:px-3 py-2 sm:py-3 text-center text-sm sm:text-base lg:text-lg focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+        
         </div>
 
       
         <motion.button
           onClick={handleSubmit}
-          className="w-full bg-[#026766] from-green-600 to-green-700 cursor-pointer text-white py-3 sm:py-4 lg:py-5 rounded-xl shadow-lg hover:shadow-xl transition-all text-white sm:text-lg lg:text-xl font-semibold mt-6 sm:mt-8"
+          className="w-full bg-[#026766] from-green-600 to-green-700 cursor-pointer text-white py-2 sm:py-3 lg:py-3 rounded-lg shadow-md hover:shadow-lg transition-all text-white sm:text-base lg:text-lg font-medium mt-6 sm:mt-8"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -262,37 +236,36 @@ export default function Hero() {
     </div>
   </div>
 </section>
-
-    <section className="bg-[#f8f8f7] text-black py-10 px-16 relative">
+    <section className="bg-[#f8f8f7] text-black py-8 sm:py-10 px-4 sm:px-8 md:px-16 relative">
         <div>
             <div>
                 <div className="flex justify-center">
-                    <h2 className={`text-4xl  font-bold text-gray-700 ${heading.className}`}> 
+                    <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold text-gray-700 text-center ${heading.className}`}> 
                         Instant Printing Near Me
                     </h2>
                 </div>
-                <div className="flex justify-center mt-4">
-                    <span className="font-light text-xl">
+                <div className="flex justify-center mt-3 sm:mt-4">
+                    <span className="font-light text-sm sm:text-lg md:text-xl text-center px-2">
                         Choose delivery to your door, or collect from over 400 convenient locations nationwide.
                     </span>
                 </div>
             </div>
-            <div className="flex justify-center relative w-full h-96 mt-8">
-             <h2>check</h2>
+            <div className="flex justify-center relative w-full h-64 sm:h-80 md:h-96 mt-6 sm:mt-8">
+         
                 <Image
                 priority
                 quality={100}
                 fill
                 src="/store_final.svg" 
                 alt="md screen"
-                className="object-contain scale-110"
+                className="object-contain scale-90 sm:scale-100 md:scale-110"
                 />
             </div>
         </div>
-    </section>
+  </section>
 
    <section className="bg-white text-black mt-6 py-10">
-  <h1 className={`text-center text-gray-700 text-4xl font-bold my-6 ${heading.className}`}>
+  <h1 className={`text-center text-gray-700 text-4xl font-bold mb-6 pb-10 ${heading.className}`}>
     Explore Collect Locations
   </h1>
   <span className="flex justify-center text-xl font-bold text-gray-500">find the nearest Click & Check Price </span>
@@ -332,32 +305,44 @@ export default function Hero() {
             A complete solution for your team's printing
         </h4>
         
-        <p className="md:text-xl text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
-            We've helped 400,000+ businesses and individuals with their everyday printing. Whether your team needs just a few pages or a few thousand, we'll securely ship from our facilities to any UK address in a matter of one working day.
+        <p className="md:text-lg text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
+            We've helped thousands of businesses and individuals with their everyday printing. Whether your team needs just a few pages or a few thousand, we'll securely ship from our facilities to any India address in a matter of one working day.
         </p>
-        
         <div className="pt-4">
-            <button className="transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg inline-flex items-center justify-center rounded-xl bg-[#026766] px-8 py-4 text-white font-semibold shadow-lg cursor-pointer active:scale-[.99]">
-                SignUp Now
-            </button>
+            <Link href="/order">
+             <motion.button 
+               whileHover={{ 
+                 y: -2, 
+                 scale: 1.02,
+                 transition: { duration: 0.1, ease: "easeOut" }
+               }}
+               whileTap={{ 
+                 scale: 0.98,
+                 transition: { duration: 0.05 }
+               }}
+               className="inline-flex items-center justify-center rounded-lg bg-brand hover:bg-brand/80 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg transition-all duration-100 cursor-pointer"
+             >
+               SignUp Now
+             </motion.button>
+            </Link>
         </div>
     </div>
 </section>
 
 <section className="bg-white text-black relative">
-  <div className="text-center py-6">
-    <h2 className={`${heading.className} text-3xl font-bold text-gray-800`}>We Print Responsibly</h2>
+  <div className="text-center py-6 pt-10">
+    <h2 className={`${heading.className} text-3xl font-medium text-gray-700`}>We Print Responsibly</h2>
   </div>
 
   <div className="relative w-full h-[100vh]">
     <img
-      src="/doggo_md.svg"
+      src="/raccon.png"
       alt="Sustainability"
       className="w-full h-full object-cover hidden md:block"
     />
-    <img src="/doggo.jpeg" alt="" className="w-[100vw] mx-auto h-full object-cover md:hidden" />
+    <img src="/raccon.png" alt="" className="w-[100vw] mx-auto h-full object-cover md:hidden" />
     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 flex items-start justify-center w-full">
-      <p className="text-lg md:text-2xl text-black font-bold max-w-3xl text-center px-4">
+      <p className="text-lg md:text-xl text-gray-700 font-medium max-w-3xl text-center px-4">
       We're committed to making your printing sustainable.For every 100 page we print, we
       plant a tree.
       </p>
@@ -367,128 +352,61 @@ export default function Hero() {
 
 
 
-
-<section className="bg-white px-8 md:px-20 text-black py-20">
-    <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1 space-y-8">
-                <motion.h2 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className={`${heading.className} text-3xl md:text-5xl text-center lg:text-left font-bold text-gray-700 leading-tight`}
-                >
-                    Why choose document printing from Us?
-                </motion.h2>
-                
-                <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="md:text-xl text-lg text-center text-gray-500"
-                >
-                    Do you have countless documents to print but no time to go to the copy studio and queue up? Or are there so many pages that carrying them around easily is impossible and you run the risk of crumpling them up and looking unprofessional?
-                </motion.p>
-
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="grid md:grid-cols-2 gap-6"
-                >
-                    <div className="flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-[#026766] rounded-full flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-gray-800 mb-2">Lightning Fast</h3>
-                            <p className="text-gray-600 text-sm">Get your documents printed and delivered within 24 hours</p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-[#026766] rounded-full flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-gray-800 mb-2">Premium Quality</h3>
-                            <p className="text-gray-600 text-sm">Professional-grade printing with crisp, clear results</p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-[#026766] rounded-full flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-gray-800 mb-2">Secure Handling</h3>
-                            <p className="text-gray-600 text-sm">Your documents are handled with complete confidentiality</p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-[#026766] rounded-full flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-gray-800 mb-2">Convenient Locations</h3>
-                            <p className="text-gray-600 text-sm">Pick up from multiple locations across the city</p>
-                        </div>
-                    </div>
-                </motion.div>
-
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-                >
-                    <button className="transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg inline-flex items-center justify-center rounded-xl bg-[#026766] px-8 py-4 text-white font-semibold shadow-lg cursor-pointer active:scale-[.99]">
-                        Start Printing Now
-                    </button>
-                    <button className="transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-lg inline-flex items-center justify-centertext-[#026766] px-8 py-4 font-semibold cursor-pointer active:scale-[.99]">
-                        View Pricing
-                    </button>
-                </motion.div>
-            </div>
-
-            <motion.div 
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                className="flex-1 relative"
-            >
-                <div className="relative">
-                    <img
-                        src="/printer3.png"
-                        alt="Professional printing services"
-                        className=" w-full h-[450px] object-cover"
-                    />
-                    <div className="absolute -bottom-6 -left-6 bg-white p-2  shadow-lg border">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-2 h-2 bg-[#f8f8f7]  flex items-center justify-center">
-                               <BiHappyHeartEyes/>
-                            </div>
-                            <div>
-                                <p className="font-semibold text-gray-800">1000+</p>
-                                <p className="text-sm text-gray-600">Happy Customers</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </motion.div>
-        </div>
+<section className=" px-8 md:px-20 text-black py-20">
+  <div className="max-w-7xl mx-auto">
+    <div className="text-center mb-16">
+      <h2 className={`text-2xl md:text-4xl font-bold text-gray-800 ${heading.className}`}>
+        Why Choose Us?
+      </h2>
     </div>
-</section> 
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* Card 1 */}
+      <div className=" p-6 rounded-xl bg-neutral-100 border-t-3 border-brand text-center">
+        <div className="flex justify-center mb-4">
+          <svg className="w-10 h-10 text-brand" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M12 8v4l3 3M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"/>
+          </svg>
+        </div>
+        <h3 className="font-bold text-lg mb-2">Fast Turn Around</h3>
+        <p className="text-gray-600">Same-day order delivery for small orders.</p>
+      </div>
+
+      {/* Card 2 */}
+      <div className=" p-6 rounded-xl bg-neutral-100 border-t-3 border-brand text-center">
+        <div className="flex justify-center mb-4">
+          <svg className="w-10 h-10 text-brand" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M6 2l1.5 4.5h9L18 2M3 6h18M4 6v14a2 2 0 002 2h12a2 2 0 002-2V6"/>
+          </svg>
+        </div>
+        <h3 className="font-bold text-lg mb-2">Easy Ordering</h3>
+        <p className="text-gray-600">  Pickup or get delivery. Reorder in a click – ideal for businesses!</p>
+      </div>
+
+      {/* Card 3 */}
+      <div className=" p-6 rounded-xl bg-neutral-100 border-t-3 border-brand text-center">
+        <div className="flex justify-center mb-4">
+          <svg className="w-10 h-10 text-brand" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M4 7h16v13H4zM4 3h16v4H4z"/>
+          </svg>
+        </div>
+        <h3 className="font-bold text-lg mb-2">27+ Stores Nationwide</h3>
+        <p className="text-gray-600">Quality Printing, always within reach!</p>
+      </div>
+
+      {/* Card 4 */}
+      <div className=" p-6 rounded-xl bg-neutral-100 border-t-3 border-brand text-center">
+        <div className="flex justify-center mb-4">
+          <svg className="w-10 h-10 text-brand" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M4 4h16v16H4zM4 4l8 8 8-8"/>
+          </svg>
+        </div>
+        <h3 className="font-bold text-lg mb-2">Wide Product Range</h3>
+        <p className="text-gray-600">From tees to trophies – We print it all.</p>
+      </div>
+    </div>
+  </div>
+</section>
 <section className="bg-white px-10 md:px-30 py-10">
           <div className="flex justify-center">
             <h3 className={`${heading.className} text-2xl md:text-4xl text-center font-bold text-gray-800`}>Common questions about us</h3>

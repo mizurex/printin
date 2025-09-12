@@ -121,12 +121,12 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         {/* Footer Links Grid */}
-        <div className="grid grid-cols-4 gap-16 mb-12 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 lg:gap-16 mb-8 sm:mb-10 lg:mb-12">
           {footerSections.map((section) => (
-            <div key={section.title} >
-              <h3 className="text-lg font-semibold text-gray-700 hover:text-[#026766] mb-6">
+            <div key={section.title}>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700 hover:text-[#026766] mb-4 sm:mb-6">
                 {section.title}
               </h3>
               <div className='hover:text-[#026766]'>
@@ -141,16 +141,17 @@ const Footer: React.FC = () => {
 
   
 
-        <div className="text-center text-gray-600 text-sm leading-relaxed max-w-4xl mx-auto mb-3">
+        <div className="text-center text-gray-600 text-xs sm:text-sm leading-relaxed max-w-4xl mx-auto mb-2 sm:mb-3 px-2">
           <strong className="text-gray-800">*100% money back guarantee</strong> only covers instances where the printing quality has visible imperfections or is
-          incorrectly printed. A photo of the imperfection has to be provided and evaluated by our team. Delivery delays
-          specifically do not fall under this guarantee and a refund will not be issued for late orders.
+          incorrectly printed. A photo of the imperfection has to be provided and evaluated by our team.
         </div>
           
-          <h3 className='font-stretch-semi-condensed text-black'>
+          <h3 className='font-stretch-semi-condensed text-black text-center text-sm sm:text-base'>
             made by Turf
           </h3>
-     
+          <h2 className='text-gray-600 text-xs sm:text-sm leading-relaxed max-w-4xl mx-auto mb-2 sm:mb-3 px-2'>
+            Took inspiration from _
+          </h2>
       </div>
     </footer>
   );

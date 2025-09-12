@@ -53,8 +53,9 @@ export default function Checkout({userId}: CheckoutProps) {
           copies: orderData.copies,
           service: orderData.service
         },
-        successUrl: `${window.location.origin}/success`,
+        successUrl: `${window.location.origin}/order/success`,
         cancelUrl: `${window.location.origin}/checkout`,
+        totalAmount: totalAmount,
         userId : userId,
 
       })
@@ -71,7 +72,7 @@ export default function Checkout({userId}: CheckoutProps) {
   }
 };
 
-  const [totalAmount,setTotalAmount] = useState(0);
+  const [totalAmount,setTotalAmount] = useState(9);
   
 
   useEffect(() => {
@@ -115,11 +116,7 @@ const handleCopies = (delta: number) => {
      
       <section className="relative w-full h-[90vh] ">
 
-          <img
-        src="/hero2.jpeg"
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover opacity-50"
-      />
+        
 
       {/* Foreground content */}
       <div className="relative z-10 max-w-xl mx-auto mt-32">
@@ -130,7 +127,7 @@ const handleCopies = (delta: number) => {
         <div className="inline-block bg-[#026766] text-white rounded-full px-6 py-4 mb-4 shadow-lg">
           <p className="text-sm">Total</p>
           <p className="text-2xl font-bold">
-            £{totalAmount}
+            ₹{totalAmount + 2.50}
           </p>
           <p className="text-xs opacity-80">all taxes incl.</p>
         </div>
@@ -138,12 +135,12 @@ const handleCopies = (delta: number) => {
         <p className="mb-6 text-lg font-medium">
           Collection Time:{" "}
           <span className="font-bold">
-          {orderData.service.pickup?.storeAddress}
+          {orderData.service.method === "pickup" ? orderData.service.pickup?.store_addr : orderData.service.delivery?.address}
           </span>
         </p>
 
         <button className="bg-[#026766] hover:bg-emerald-600 text-white px-8 py-3 rounded-lg font-semibold shadow-md">
-          PAY £{totalAmount}
+          PAY ₹{totalAmount + 2.50}
         </button>
       </div>
 
@@ -192,8 +189,8 @@ const handleCopies = (delta: number) => {
       <Map
     defaultCenter={[22.9734, 78.6569]}
     defaultZoom={7}
-    height={300}
-    width={300}
+    height={200}
+    width={350}
     provider={(x, y, z, dpr) =>
       `https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/${z}/${x}/${y}${
         dpr && dpr >= 2 ? "@2x" : ""
@@ -211,16 +208,16 @@ const handleCopies = (delta: number) => {
 
    
       <div className="p-4 bg-white">
-        <p className="font-bold">{orderData.service.pickup?.storeName}</p>
-        <p className="text-gray-600">{orderData.service.pickup?.storeAddress}</p>
-        <p className="text-green-700 font-semibold text-sm">Closed - Opens at 09:00</p>
+        <p className="font-bold">{orderData.service.pickup?.store_name}</p>
+        <p className="text-gray-600">{orderData.service.pickup?.store_addr}</p>
+        <p className="text-green-700 font-semibold text-sm">  09:00 - 18:00</p>
       </div>
     </div>
   ) : (
     <div>
-      <p className="font-medium">{orderData.service.delivery?.customerAddress || "No address provided"}</p>
-      <p className="text-sm">{orderData.service.delivery?.customerName}</p>
-      <p className="text-sm">{orderData.service.delivery?.customerEmail}</p>
+      <p className="font-medium">{orderData.service.delivery?.address || "No address provided"}</p>
+      <p className="text-sm">{orderData.service.delivery?.name}</p>
+      <p className="text-sm">{orderData.service.delivery?.email}</p>
     </div>
   )}
 </div>
@@ -228,9 +225,9 @@ const handleCopies = (delta: number) => {
              
             ) : (
               <div>
-                <p className="font-medium">{orderData.service.delivery?.customerAddress || "No address provided"}</p>
-                <p className="text-sm">{orderData.service.delivery?.customerName}</p>
-                <p className="text-sm">{orderData.service.delivery?.customerEmail}</p>
+                <p className="font-medium">{orderData.service.delivery?.address || "No address provided"}</p>
+                <p className="text-sm">{orderData.service.delivery?.name}</p>
+                <p className="text-sm">{orderData.service.delivery?.email}</p>
               </div>
             )}
           </div>
@@ -258,7 +255,7 @@ const handleCopies = (delta: number) => {
                
             </div>
             <div  className="flex justify-between items-center md:h-[7vh] h-[4vh]  border border-gray-300 shadow-lg items-center rounded-md px-5">
-                <span className="text-lg font-semibold ">File.png 3 pages</span>
+                <span className="text-lg font-semibold ">File.png</span>
              
                 
               </div>
@@ -292,19 +289,23 @@ const handleCopies = (delta: number) => {
         </div>
           <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
             <div >
-              <span className="text-xl font-bold text-black ">1 Files , 2 Pages x {orderData.copies} Copies</span>
+            <span className="text-xl font-bold text-black ">
+  1 File, Pages × {orderData.copies} Copies
+</span>
+
             </div>
             <div className="flex justify-between border-b border-b-gray-400">
               <span className="text-xl font-bold text-gray-500 ">{orderData.options.colour} </span>
-              <span className="text-xl font-bold text-gray-500 ">0.00rs</span>
+              <span className="text-xl font-bold text-gray-500 ">Included</span>
+
             </div>
             <div className="flex justify-between ">
               <span className="text-xl font-bold text-gray-500 ">Service Charge</span>
-              <span>£2.50</span>
+              <span>₹2.50</span>
             </div>
           <div className="flex justify-between border-t border-t-gray-400">
               <span className="text-xl font-bold text-gray-500 ">Total </span>
-              <span className="text-xl font-bold text-gray-500 ">£3.30</span>
+              <span className="text-xl font-bold text-gray-500 ">₹{totalAmount+2.50}</span>
             </div>
             <div className="flex justify-end">
               <button>
@@ -319,7 +320,7 @@ Friday, 29th August, 12:04h, Europe/London</span>
              <button
             onClick={handlePayment}
             className="w-full bg-[#026766] text-white font-semibold py-3 rounded-lg shadow-md">
-            PAY £{totalAmount}
+            PAY ₹{totalAmount+2.50}
           </button>
             </div>
             <div>

@@ -9,67 +9,71 @@ datasource db {
 }
 model User {
   id         Int      @id @default(autoincrement())
-  user_id    String   @unique
+  user_id    String?  @unique   // external auth ID if needed
   name       String
   email      String   @unique
-  mobile     String?  
+  mobile     String?
   address    String?
   created_at DateTime @default(now())
-  orders     Order[]
-}
 
-model Test{
-  id            Int          @id @default(autoincrement())
-  name String
-
+  orders     Order[]   // one-to-many
 }
 
 model Order {
-  id            Int          @id @default(autoincrement())
-  user_id       String     
-  order_number  Int          @unique @default(autoincrement())
-  service_type  ServiceType
-  delivery_info DeliveryInfo?
-  pickup_info   PickupInfo?
-  total_pages   Int
-  total_amount  Float
-  order_status  OrderStatus  @default(PENDING)
-  created_at    DateTime?    @default(now())
-  documents     Document[]
-  user          User?         @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  id           Int           @id @default(autoincrement())
+  order_number Int           @unique @default(autoincrement()) // optional human-facing number
+  service_type ServiceType
+  total_pages  Int
+  total_amount Float
+  order_status OrderStatus   @default(PENDING)
+  created_at   DateTime      @default(now())
+
+  // relation to user (each order must belong to a user)
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // child relations
+  documents    Document[]
+  deliveryInfo DeliveryInfo?
+  pickupInfo   PickupInfo?
 }
 
 model Document {
-  id             Int      @id @default(autoincrement())
-  order_id       Int
-  file_url       String
-  page_count     Int      @default(1)
-  color          Boolean  @default(true)
-  lamination     Boolean  @default(false)
-  binding        Boolean  @default(false)
-  uploaded_at    DateTime @default(now())
-  order          Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  id          Int      @id @default(autoincrement())
+  orderId     Int
+  file_url    String
+  page_count  Int      @default(1)
+  color       Boolean  @default(true)
+  lamination  Boolean  @default(false)
+  binding     Boolean  @default(false)
+  uploaded_at DateTime @default(now())
+
+  // each document belongs to exactly one order
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
-
 model DeliveryInfo {
-  id        Int    @id @default(autoincrement())
-  order_id  Int    @unique
-  name      String
-  address   String
-  city      String
-  postal    String
-  email     String
-  order     Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  id       Int    @id @default(autoincrement())
+  orderId  Int    @unique
+  name     String
+  address  String
+  city     String
+  postal   String
+  email    String
+
+  // one-to-one with Order (foreign key lives here, unique => only one DeliveryInfo per Order)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model PickupInfo {
-  id          Int    @id @default(autoincrement())
-  order_id    Int    @unique
-  store_id    String
-  store_name  String
-  store_addr  String
-  order       Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  id         Int    @id @default(autoincrement())
+  orderId    Int    @unique
+  store_id   String
+  store_name String
+  store_addr String
+
+  // one-to-one with Order
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 enum ServiceType {

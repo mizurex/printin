@@ -12,12 +12,10 @@ const printingCost = numFiles * printingRate * copies;
 
 let total = printingCost;
 
-// Add delivery cost
 const deliveryCost = service.method === "delivery" ? 2.5 : 0;
 total += deliveryCost;
 
-// Add tax (20%)
-const tax = total * 0.2;
+const tax = total * 11;
 total += tax;
 
 return NextResponse.json({
