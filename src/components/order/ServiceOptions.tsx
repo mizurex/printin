@@ -212,249 +212,244 @@ export default function ServiceOptions({ orderData, setOrderData, nextStep, prev
     }
   };
   return (
-    <div className="bg-[#f2fbfa] min-h-screen py-14">
-      <div className="flex justify-center  text-black mb-10">
-        <h3 className={`md:text-5xl text-3xl font-bold text-gray-700 ${heading.className}`}>Last clicks to complete your order</h3>
+    <div className="bg-[#f2fbfa] min-h-screen py-10 md:py-14">
+      <div className="flex justify-center text-black mb-8 md:mb-10 px-4">
+        <div className="text-center">
+          <h3 className={`text-2xl md:text-4xl lg:text-5xl font-bold text-gray-700 ${heading.className} mb-2`}>
+            Last clicks to complete your order
+          </h3>
+          <p className="text-sm md:text-base text-gray-500">Choose how you'd like to receive your prints</p>
+        </div>
       </div>
 
       {!showDetails ? (
-        <div className="space-y-6 py-5">
-          <div className="">
-          <div className="flex gap-6 mb-6 justify-center">
-  <button
-    className={`p-6 w-50 h-[20vh] md:h-[30vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border  ${
-      selectedMethod === "delivery"
-        ? "border border-t"
-              : " bg-white"
-    }`}
-    onClick={() => handleMethodChange("delivery")}
-  >
-    <img
-      src="/delivery.png"
-      alt="Delivery"
-      className="w-20 h-20 mb-2 transition-all duration-100"
-    />
-    <h3
-      className={`text-xl font-semibold ${
-        selectedMethod === "delivery" ? "text-gray-900" : "text-gray-400"
-      }`}
-    >
-      Delivery to me
-    </h3>
-    <input
-      type="checkbox"
-      checked={selectedMethod === "delivery"}
-      readOnly
-      className="mt-2 w-5 h-5"
-    />
-  </button>
+        <div className="space-y-8 py-5">
+          <div className="flex justify-center px-4">
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full max-w-2xl">
+              <button
+                className={`flex-1 p-6 h-32 md:h-40 flex flex-col items-center justify-center rounded-xl shadow-lg transition-all duration-200 ${
+                  selectedMethod === "delivery"
+                    ? "bg-[#026766]/5 shadow-lg"
+                    : "bg-white"
+                }`}
+                onClick={() => handleMethodChange("delivery")}
+              >
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${
+                  selectedMethod === "delivery" ? "bg-[#026766] text-white" : "bg-gray-100 text-gray-400"
+                }`}>
+                  🚚
+                </div>
+                <h3 className={`text-lg font-semibold ${
+                  selectedMethod === "delivery" ? "text-gray-900" : "text-gray-500"
+                }`}>
+                  Delivery to me
+                </h3>
+                <p className="text-xs text-gray-400 mt-1">Fast & reliable</p>
+              </button>
 
-  {/* Pickup Card */}
-  <button
-    className={`p-6 w-50 h-[20vh] md:h-[30vh]  flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
-      selectedMethod === "pickup"
-        ? "border border-t"
-              : " bg-white"
-    }`}
-    onClick={() => handleMethodChange("pickup")}
-  >
-    <img
-      src="/pickup.png"
-      alt="Pickup"
-      className="w-20 h-20 mb-2 transition-all duration-100"
-    />
-    <h3
-      className={`text-xl font-semibold ${
-        selectedMethod === "pickup" ? "text-gray-900" : "text-gray-400"
-      }`}
-    >
-      I&apos;ll collect it
-    </h3>
-    <input
-      type="checkbox"
-      checked={selectedMethod === "pickup"}
-      readOnly
-      className="mt-2 w-5 h-5"
-    />
-  </button>
-</div>
-
+              <button
+                className={`flex-1 p-6 h-32 md:h-40 flex flex-col items-center justify-center rounded-xl shadow-lg transition-all duration-200 ${
+                  selectedMethod === "pickup"
+                    ? "bg-[#026766]/5 shadow-lg"
+                    : "bg-white"
+                }`}
+                onClick={() => handleMethodChange("pickup")}
+              >
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${
+                  selectedMethod === "pickup" ? "bg-[#026766] text-white" : "bg-gray-100 text-gray-400"
+                }`}>
+                  🏪
+                </div>
+                <h3 className={`text-lg font-semibold ${
+                  selectedMethod === "pickup" ? "text-gray-900" : "text-gray-500"
+                }`}>
+                  I'll collect it
+                </h3>
+                <p className="text-xs text-gray-400 mt-1">Visit our store</p>
+              </button>
+            </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4">
              <button
           onClick={handleNext}
-          className="px-15 py-3 bg-[#026766] text-white font-semibold rounded-lg shadow cursor-pointer hover:bg-[#027876]"
+          className="px-8 py-3 bg-[#026766] text-white font-semibold rounded-xl shadow-lg cursor-pointer hover:bg-[#027876] transition-all duration-200 hover:shadow-xl"
         >
          CONTINUE
         </button> 
+        <button
+            onClick={prevStep}
+            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 font-semibold"
+          >
+            ← Back
+          </button>
           </div>
         </div>
       ) : (
       
-        <div className="space-y-6">
+        <div className="flex justify-center px-4">
           {selectedMethod === "delivery" ? (
          
-            <div className="space-y-4">
-              <h3 className="text-2xl font-semibold mb-4">Delivery Details</h3>
+            <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 md:p-8 space-y-5">
+              <div className="text-center mb-6">
+                <h3 className="text-xl md:text-2xl font-semibold text-gray-800">Delivery Details</h3>
+                <p className="text-sm text-gray-500 mt-1">We'll deliver right to your door</p>
+              </div>
               
+            <div className="space-y-4">
               <input
-  type="text"
-  placeholder="Full Name *"
-  value={orderData.service.delivery?.name ?? ""}
-  onChange={(e) => handleDeliveryChange("name", e.target.value)}
-  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-  required
-/>
-<input
-  type="email"
-  placeholder="Email Address *"
-  value={orderData.service.delivery?.email ?? ""}
-  onChange={(e) => handleDeliveryChange("email", e.target.value)}
-  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-  required
-/>
-<input
-  type="tel"
-  placeholder="Phone Number *"
-  value={orderData.service.delivery?.phone ?? ""}
-  onChange={(e) => handleDeliveryChange("phone", e.target.value)}
-  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-  required
-/>
-<textarea
-  placeholder="Delivery Address *"
-  value={orderData.service.delivery?.address ?? ""}
-  onChange={(e) => handleDeliveryChange("address", e.target.value)}
-  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 resize-none"
-  required
-/>
-<input
-  type="date"
-  value={orderData.service?.delivery?.date ?? ""}
-  onChange={(e) => handleDateChange(e.target.value)}
-  min={new Date().toISOString().split("T")[0]}
-  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-/>
+                type="text"
+                placeholder="Full Name"
+                value={orderData.service.delivery?.name ?? ""}
+                onChange={(e) => handleDeliveryChange("name", e.target.value)}
+                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#026766] focus:border-[#026766] transition-all placeholder-gray-400"
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={orderData.service.delivery?.email ?? ""}
+                onChange={(e) => handleDeliveryChange("email", e.target.value)}
+                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#026766] focus:border-[#026766] transition-all placeholder-gray-400"
+                required
+              />
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                value={orderData.service.delivery?.phone ?? ""}
+                onChange={(e) => handleDeliveryChange("phone", e.target.value)}
+                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#026766] focus:border-[#026766] transition-all placeholder-gray-400"
+                required
+              />
+              <textarea
+                placeholder="Delivery Address"
+                value={orderData.service.delivery?.address ?? ""}
+                onChange={(e) => handleDeliveryChange("address", e.target.value)}
+                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#026766] focus:border-[#026766] transition-all placeholder-gray-400 h-20 resize-none"
+                required
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-2">Preferred Delivery Date</label>
+                <input
+                  type="date"
+                  value={orderData.service?.delivery?.date ?? ""}
+                  onChange={(e) => handleDateChange(e.target.value)}
+                  min={new Date().toISOString().split("T")[0]}
+                  className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#026766] focus:border-[#026766] transition-all"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-8 px-4 ">
+            <button
+              onClick={() => setShowDetails(false)}
+              className="w-full sm:w-auto px-6 py-3 font-semibold text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-all duration-200"
+            >
+              Back to Options
+            </button>
+            
+            <Link href="/order/checkout" className="w-full sm:w-auto">
+              <button
+                disabled={!isFormValid()}     
+                className={`w-full px-8 py-3 font-semibold rounded-xl shadow-lg transition-all duration-200 ${
+                  isFormValid()
+                    ? "bg-[#026766] text-white hover:bg-[#027876] hover:shadow-xl cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                CHECKOUT
+              </button>
+            </Link>
+          </div>
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="flex justify-center">
-                <h3 className="text-xl font-semibold mb-4 text-gray-600">Select Your Pickup Store</h3>
+            <div className="w-full max-w-4xl mx-auto space-y-6">
+              <div className="text-center">
+                <h3 className="text-xl md:text-2xl font-semibold text-gray-800">Select Your Pickup Store</h3>
+                <p className="text-sm text-gray-500 mt-1">Click on a store marker or anywhere on the map</p>
               </div>
               
               
-          <div className="h-[400px] border rounded-lg shadow-lg w-fit mx-auto flex justify-center items-center  rounded-lg">
-  <Map
-    defaultCenter={[22.9734, 78.6569]}
-    defaultZoom={7}
-    height={400}
-    width={1000}
-    provider={(x, y, z, dpr) =>
-      `https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/${z}/${x}/${y}${
-        dpr && dpr >= 2 ? "@2x" : ""
-      }.png`
-    }
-    onClick={({ latLng }: any) => handleMapClick(latLng[0], latLng[1])}
-  >
-    {stores.map((store) => (
-      <Marker
-        key={store.id}
-        width={40}
-        anchor={[store.lat, store.lng]}
-        onClick={() => handleStoreSelect(store)}
-      />
-    ))}
-    {orderData.service?.pickup?.lat && orderData.service?.pickup?.lng ? (
-      <Marker
-        key="selected"
-        width={40}
-        anchor={[orderData.service.pickup.lat, orderData.service.pickup.lng]}
-      />
-    ) : null}
-  </Map>
-</div>
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="h-[300px] md:h-[400px] w-full">
+              <Map
+                defaultCenter={[22.9734, 78.6569]}
+                defaultZoom={6}
+                height={400}
+                width={800}
+                provider={(x, y, z, dpr) =>
+                  `https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/${z}/${x}/${y}${
+                    dpr && dpr >= 2 ? "@2x" : ""
+                  }.png`
+                }
+                onClick={({ latLng }: any) => handleMapClick(latLng[0], latLng[1])}
+              >
+                {stores.map((store) => (
+                  <Marker
+                    key={store.id}
+                    width={35}
+                    anchor={[store.lat, store.lng]}
+                    onClick={() => handleStoreSelect(store)}
+                  />
+                ))}
+                {orderData.service?.pickup?.lat && orderData.service?.pickup?.lng ? (
+                  <Marker
+                    key="selected"
+                    width={40}
+                    anchor={[orderData.service.pickup.lat, orderData.service.pickup.lng]}
+                  />
+                ) : null}
+              </Map>
+            </div>
+          </div>
                   
-                  <div className="flex justify-center items-center">
-  <div className="w-full max-w-md shadow-lg border rounded-lg p-4 bg-white">
-    
-    {/* Store Info */}
-    <div className="flex justify-between items-start">
-      <div>
-          {orderData.service.pickup && (
-  <div className="mt-4 p-4 border rounded-lg">
-    <p className="text-black font-bold">
-      {orderData.service.pickup?.store_addr || "No store selected"}
-    </p>
-  </div>
-)}
-        <p className="mt-2">
-          <span className="text-[#026766]  font-bold">Closed</span> - 
-          <span className="font-semibold text-gray-800"> Opens at 00:00</span>
-        </p>
-      </div>
-    
-    </div>
+                  <div className="flex justify-center">
+                    <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
+                      
+                      {/* Store Info */}
+                      <div className="text-center">
+                        {orderData.service.pickup?.store_addr ? (
+                          <div className="mb-4">
+                            <h4 className="font-semibold text-gray-800 mb-1">
+                              {orderData.service.pickup?.store_name || "Selected Location"}
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              {orderData.service.pickup?.store_addr}
+                            </p>
+                            <p className="text-xs text-green-600 mt-2 font-medium">
+                              Store Hours: 09:00 - 18:00
+                            </p>
+                          </div>
+                        ) : (
+                          <p className="text-gray-500 mb-4">No store selected</p>
+                        )}
+                      </div>
 
-    {/* Date Picker */}
-    <div className="mt-6">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Preferred Pickup Date
-      </label>
-      <input
-  type="date"
-  value={orderData.service?.pickup?.date ?? ""}
-  onChange={(e) => handleDateChange(e.target.value)}
-  min={new Date().toISOString().split("T")[0]}
-  className="w-full p-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-/>
-    </div>
-
-   
-  
-  </div>
-</div>
-
+                      {/* Date Picker */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-600 mb-2">
+                          Preferred Pickup Date
+                        </label>
+                        <input
+                          type="date"
+                          value={orderData.service?.pickup?.date ?? ""}
+                          onChange={(e) => handleDateChange(e.target.value)}
+                          min={new Date().toISOString().split("T")[0]}
+                          className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#026766] focus:border-[#026766] transition-all"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
              
               
             </div>
           )}
 
-          <div className="flex justify-center space-x-16 items-center pt-6">
-            <button
-              onClick={() => setShowDetails(false)}
-           className="px-6 py-3 font-bold cursor-pointer text-gray-500 transition-all"
-            >
-              Back to Options
-            </button>
-            
-            <Link href="/order/checkout">
-            <button
-              
-              disabled={!isFormValid()}     
-          className={`px-15 py-3 bg-[#026766] text-white font-semibold rounded-lg shadowursor-pointer transition-colors ${
-                isFormValid()
-                  ? "bg-[#026766] text-white cursor-pointer hover:bg-[#027876] "
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-            >
-               CHECKOUT
-            </button>
-            </Link>
-          </div>
+        
         </div>
       )}
 
-      {!showDetails && (
-        <div className="flex justify-start mt-8">
-          <button
-            onClick={prevStep}
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            ← Back
-          </button>
-        </div>
-      )}
+  
       <div className="mt-10">
         <Footer/>
       </div>

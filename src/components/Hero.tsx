@@ -70,7 +70,6 @@ export default function Hero() {
   return (
     <main className="bg-white overflow-hidden">
         <section className="relative w-full min-h-[90vh] overflow-hidden">
-      {/* mobile img */}
       <Image
         src="/mobile-hero.jpg"           
         alt="mobile hero"
@@ -80,10 +79,11 @@ export default function Hero() {
         className="object-cover md:hidden"
       />
         <Image
-        src="/hero_sec_2.png"
+        src="/hero_sec.png"
         alt="deskstop hero"
         fill
         priority
+        quality={100}
         className="object-cover hidden md:block"
       />
 

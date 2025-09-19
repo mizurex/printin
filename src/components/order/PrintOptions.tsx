@@ -35,21 +35,21 @@ export default function PrintOptions() {
 
   return (
     <div className="bg-[#f2fbfa] min-h-screen py-14">
-      <div className="text-black">
+        <div className="text-black px-4">
         <div className="flex justify-center">
           <h2
-            className={`text-4xl font-bold mb-4 text-center text-gray-700 ${heading.className}`}
+            className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-center text-gray-700 ${heading.className}`}
           >
             What can we do for your printing?
           </h2>
         </div>
-        <div className="flex justify-center text-xl text-gray-600 font-bold ">
+        <div className="flex justify-center text-lg sm:text-xl text-gray-600 font-bold ">
           <p>Select printing options</p>
         </div>
       </div>
 
    
-      <div className="flex gap-4 mb-6 justify-center items-center mt-10">
+      <div className="flex flex-wrap gap-2 sm:gap-4 mb-6 justify-center items-center mt-10 px-4">
         <span
           className={
             Number(subStep) >= 1 ? "text-[#026766] font-bold" : "text-gray-500"
@@ -102,20 +102,16 @@ export default function PrintOptions() {
       </div>
 
       {subStep === 1 && (
-  <div className="flex gap-6 mb-6 justify-center mt-10">
+  <div className="flex flex-col sm:flex-row gap-6 mb-6 justify-center items-center mt-10 px-4">
     {[
-      { label: "Black & White", defaultImg: "/brush.png", activeImg: "/brush.png" },
-      { label: "Colour", defaultImg: "/brush.png", activeImg: "/brushimage.jpg" },
+      { label: "Black & White", defaultImg: "/blackandwhite.png" },
+      { label: "Colour", defaultImg: "/color_1.png" },
     ].map((opt) => {
       const isSelected = orderData.options.colour === opt.label;
       return (
         <button
           key={opt.label}
-          className={`p-6 md:w-50 w-[70vw] h-[20vh]  flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 mr-10 ${
-            isSelected
-              ? "border border-t"
-              : " bg-white"
-          }`}
+          className="p-4 w-full max-w-sm h-48 flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border bg-white hover:bg-gray-50 transition-colors"
           onClick={() =>
             setOrderData({
               ...orderData,
@@ -124,22 +120,18 @@ export default function PrintOptions() {
           }
         >
           <img
-            src={isSelected ? opt.activeImg : opt.defaultImg}
+            src={opt.defaultImg}
             alt={opt.label}
-            className="w-20 h-20 mb-2 transition-all duration-100"
+            className="w-24 h-20 mb-2 object-contain"
           />
-          <span
-            className={`font-semibold ${
-              isSelected ? "text-gray-900" : "text-gray-400"
-            }`}
-          >
+          <span className="font-semibold text-gray-700 mb-2">
             {opt.label}
           </span>
           <input
             type="checkbox"
             checked={isSelected}
             readOnly
-            className="mt-2 w-5 h-5"
+            className="w-5 h-5 accent-[#026766]"
           />
         </button>
       );
@@ -149,20 +141,16 @@ export default function PrintOptions() {
 
 
       {subStep === 2 && (
-        <div className="flex gap-6 mb-6 justify-center items-center mt-10">
+        <div className="flex flex-col sm:flex-row gap-6 mb-6 justify-center items-center mt-10 px-4">
           {[
-            { label: "Single-Sided", defaultImg: "/singleside.jpg",activeImg:"/singleside.jpg" },
-            { label: "Double-Sided", defaultImg: "/singleside.jpg",activeImg:"/doubleside.jpg"},
+            { label: "Single-Sided", defaultImg: "/singleside.png" },
+            { label: "Double-Sided", defaultImg: "/double.png" },
           ].map((opt) => {
             const isSelected = orderData.options.sides === opt.label;
             return(
                 <button
               key={opt.label}
-              className={`p-6 md:w-50 w-[70vw] h-[20vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
-                isSelected
-                 ? "border border-t"
-              : " bg-white"
-              }`}
+              className="p-4 w-full max-w-sm h-48 flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border bg-white hover:bg-gray-50 transition-colors"
               onClick={() =>
                 setOrderData({
                   ...orderData,
@@ -170,21 +158,15 @@ export default function PrintOptions() {
                 })
               }
             >
-              <img src={isSelected ? opt.activeImg : opt.defaultImg} alt={opt.label} className="w-20 h-20 mb-2" />
-              <span
-                className={`font-semibold ${
-                  orderData.options.sides === opt.label
-                    ? "text-gray-900"
-                    : "text-gray-400"
-                }`}
-              >
+              <img src={opt.defaultImg} alt={opt.label} className="w-24 h-20 mb-2 object-contain" />
+              <span className="font-semibold text-gray-700 mb-2">
                 {opt.label}
               </span>
               <input
                 type="checkbox"
                 checked={isSelected}
                 readOnly
-                className="mt-2 w-5 h-5"
+                className="w-5 h-5 accent-[#026766]"
               />
             </button>
             )
@@ -194,20 +176,16 @@ export default function PrintOptions() {
       )}
 
       {subStep === 3 && (
-        <div className="flex gap-6 mb-6 justify-center mt-10">
+        <div className="flex flex-col sm:flex-row gap-6 mb-6 justify-center mt-10 px-4">
           {[
-            { label: "None", defaultImg: "/notbind.jpg" ,activeImg:"/notbindcolor.jpg"},
-            { label: "Binding", defaultImg: "/defbind.jpg",activeImg:"/bindimage.jpg" },
+            { label: "None", defaultImg: "/nobind.png" },
+            { label: "Binding", defaultImg: "/binding.png" },
           ].map((opt) => {
             const isSelected = orderData.options.binding === opt.label;
             return(
             <button
               key={opt.label}
-              className={`p-6 md:w-50 w-[70vw] h-[20vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
-                isSelected
-                   ? "border border-t"
-              : " bg-white"
-              }`}
+              className="p-4 w-full max-w-sm h-48 flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border bg-white hover:bg-gray-50 transition-colors"
               onClick={() =>
                 setOrderData({
                   ...orderData,
@@ -215,21 +193,15 @@ export default function PrintOptions() {
                 })
               }
             >
-              <img src={isSelected ? opt.activeImg : opt.defaultImg} alt={opt.label} className="w-20 h-20 mb-2" />
-              <span
-                className={`font-semibold ${
-                  orderData.options.binding === opt.label
-                    ? "text-gray-900"
-                    : "text-gray-400"
-                }`}
-              >
+              <img src={opt.defaultImg} alt={opt.label} className="w-24 h-20 mb-2 object-contain" />
+              <span className="font-semibold text-gray-700 mb-2">
                 {opt.label}
               </span>
               <input
                 type="checkbox"
                 checked={isSelected}
                 readOnly
-                className="mt-2 w-5 h-5"
+                className="w-5 h-5 accent-[#026766]"
               />
             </button>
 
@@ -240,20 +212,16 @@ export default function PrintOptions() {
       )}
 
       {subStep === 4 && (
-        <div className="flex gap-4 mb-6 mx-auto justify-center mt-10 items-center">
+        <div className="flex flex-col sm:flex-row gap-6 mb-6 justify-center mt-10 items-center px-4">
           {[
-            { label: "None", defaultImg: "/colordeflam.jpg" ,activeImg:"/deflam.jpg"},
-            { label: "Lamination", defaultImg: "/colordeflam.jpg",activeImg:"/colorlamination.jpg" },
+            { label: "None", defaultImg: "/nolami.png" },
+            { label: "Lamination", defaultImg: "/lamination.png" },
           ].map((opt) => {
             const isSelected = orderData.options.lamination === opt.label;
             return(
                  <button
               key={opt.label}
-              className={`p-6 md:w-50 w-[70vw] h-[20vh] flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border border-t-0 ${
-                isSelected
-                  ? "border border-t"
-              : " bg-white"
-              }`}
+              className="p-4 w-full max-w-sm h-48 flex flex-col items-center cursor-pointer justify-center rounded-md shadow-lg border bg-white hover:bg-gray-50 transition-colors"
               onClick={() =>
                 setOrderData({
                   ...orderData,
@@ -261,21 +229,15 @@ export default function PrintOptions() {
                 })
               }
             >
-              <img src={isSelected?opt.defaultImg : opt.activeImg} alt={opt.label} className="w-20 h-20 mb-2" />
-              <span
-                className={`font-semibold ${
-                  orderData.options.lamination === opt.label
-                    ? "text-gray-900"
-                    : "text-gray-400"
-                }`}
-              >
+              <img src={opt.defaultImg} alt={opt.label} className="w-24 h-20 mb-2 object-contain" />
+              <span className="font-semibold text-gray-700 mb-2">
                 {opt.label}
               </span>
               <input
                 type="checkbox"
                 checked={isSelected}
                 readOnly
-                className="mt-2 w-5 h-5"
+                className="w-5 h-5 accent-[#026766]"
               />
             </button>
             )
@@ -284,8 +246,8 @@ export default function PrintOptions() {
         </div>
       )}
 
-     <div className="flex justify-center">
-  <div className="md:w-[50%] w-[85vw] bg-white rounded-lg shadow-md p-4 border">
+     <div className="flex justify-center px-4">
+  <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-4 border">
     <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden mb-4">
       <div
         className="h-2 bg-[#026766] rounded-full transition-all duration-500 ease-in-out"
@@ -295,7 +257,7 @@ export default function PrintOptions() {
       />
     </div>
     
-    <div className="flex gap-6 text-gray-500 font-semibold">
+    <div className="flex flex-wrap gap-2 sm:gap-4 text-sm sm:text-base text-gray-500 font-semibold">
       <span
         className={`${
           subStep === 1 ? "text-black font-bold" : orderData.options.colour ? "text-black" : "text-gray-400"

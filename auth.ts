@@ -2,7 +2,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/prisma/prisma";
-import { redirect } from "next/navigation";
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
 
@@ -26,7 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           
           if (existingUser) {
             console.log("User exists:", existingUser);
-            if(existingUser.email !== "dhananjayadhal3@gmail.com"){
+            if(existingUser.email !== process.env.Admin_email){
               console.log("Not admin updating db");
               await prisma.user.update({
               where: { user_id: account.providerAccountId } as any,

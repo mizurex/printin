@@ -28,8 +28,7 @@ model Order {
   order_status OrderStatus   @default(PENDING)
   created_at   DateTime      @default(now())
 
-  // relation to user (each order must belong to a user)
-  userId Int
+  userId  Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // child relations

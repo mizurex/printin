@@ -21,11 +21,9 @@ export default function Navbar({ session }: { session: any }) {
      
       </div>
       <nav className="hidden md:flex space-x-6 text-gray-700">
-        <a href="#" className="hover:text-[#026766]cursor-pointer">For you</a>
-        <a href="#" className="hover:text-[#026766] cursor-pointer">Business</a>
-        <a href="#" className="hover:text-[#026766]  cursor-pointer">Blogs</a>
-        <a href="#" className="hover:text-[#026766] cursor-pointer">Mail</a>
-        <a href="#" className="hover:text-[#026766] cursor-pointer">Students</a>
+        <Link href="/order" className="hover:text-[#026766] cursor-pointer transition-colors">Printing</Link>
+        <Link href="/order" className="hover:text-[#026766] cursor-pointer transition-colors">About</Link>
+        <Link href="/order" className="hover:text-[#026766] cursor-pointer transition-colors">Contact</Link>
       </nav>
       <div className="flex items-center space-x-4">
         <div className="hidden md:flex items-center space-x-1 text-gray-700">

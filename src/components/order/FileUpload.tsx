@@ -49,7 +49,7 @@ export default function FileUpload() {
       const json = await res.json();
 
       if (json.success) {
-        console.log("Cloudinary URL:", json.files[0].secure_url);
+        console.log("File uploaded successfully");
         setOrderData({ ...orderData, files:{
           ...orderData.files,
           url:json.files[0].secure_url,

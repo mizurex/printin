@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 
-export const runtime = "nodejs"; // ensures Buffer works
+export const runtime = "nodejs"; 
 
 cloudinary.config({
   cloud_name: process.env.cloud_name!,
