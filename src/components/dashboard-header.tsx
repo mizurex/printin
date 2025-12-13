@@ -15,9 +15,7 @@ export default function DashboardHeader() {
         {/* Title */}
         <div className="hidden sm:block">
           <div className="flex items-center gap-[14px]">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#ff8201] text-white font-bold text-lg">
-              <span className="h-4 w-2 bg-white"></span>
-            </div>
+            
 
             <div className="flex flex-col">
               <span className="text-foreground font-medium">Admin</span>

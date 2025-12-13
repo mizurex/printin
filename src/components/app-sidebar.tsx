@@ -157,12 +157,12 @@ export function AppSidebar() {
                   side="top"
                   className="w-[--radix-popper-anchor-width]"
                 >
-                  <DropdownMenuItem className="cursor-pointer hover:bg-[#ffebd6]">
-                    <User2 className="mr-2 h-4 w-4 text-[#ff8201]" />
+                  <DropdownMenuItem className="cursor-pointer ">
+                    <User2 className="mr-2 h-4 w-4 " />
                     <span>Account</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-[#ffebd6]">
-                    <Settings className="mr-2 h-4 w-4 text-[#ff8201]" />
+                  <DropdownMenuItem className="cursor-pointer ">
+                    <Settings className="mr-2 h-4 w-4 " />
                     <span>Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />

@@ -3,8 +3,6 @@ import { DataTable } from "./data-table"
 import { prisma } from "@/lib/prisma/prisma"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { 
   Package, 
   CircleDollarSign, 
