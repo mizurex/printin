@@ -89,8 +89,8 @@ async function getData(): Promise<Payment[]> {
         orderNumber: order.order_number,
         amount: order.total_amount,
         status: order.order_status,
-        email: user.email,
-        customerName: user.name,
+        email: "testuser@example.com",
+        customerName: "Test User",
         serviceType: order.service_type,
         totalPages: order.total_pages,
         createdAt: order.created_at,
@@ -121,7 +121,7 @@ function StatCard({
   trendUp?: boolean
 }) {
   return (
-    <Card className="py-2 font-sans hover:bg-[#ffebd6]">
+    <Card className="py-2 font-sans shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
       <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 sm:px-6">
         <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground truncate pr-2">{title}</CardTitle>
         <div className="flex p-1 items-center justify-center rounded-[6px] bg-neutral-50 border flex-shrink-0">
@@ -133,7 +133,7 @@ function StatCard({
         <div className="flex items-center justify-between gap-2 mt-1">
           <p className="text-xs text-muted-foreground truncate">{description}</p>
           {trend && (
-            <Badge variant="secondary" className={`text-xs flex-shrink-0 ${trendUp ? ' text-green-700' : ' text-red-700'}`}>
+            <Badge variant="secondary" className={`text-xs flex-shrink-0 ${trendUp ? ' text-black' : ' text-red-700'}`}>
               {trend}
             </Badge>
           )}
@@ -149,7 +149,7 @@ function OrderStatusCard({ pending, paid, delivered, total }: { pending: number;
   const deliveredPercent = total > 0 ? (delivered / total) * 100 : 0
 
   return (
-    <Card className="font-sans py-4 gap-2 hover:bg-[#ffebd6] overflow-hidden">
+    <Card className="font-sans py-4 gap-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] overflow-hidden">
       <CardHeader className="flex flex-row items-center justify-between pb-0 px-4 sm:px-6">
         <CardTitle className="text-sm sm:text-base font-medium">Order Status</CardTitle>
         <div className="flex p-1 items-center justify-center rounded-[6px] bg-neutral-50 border flex-shrink-0">
@@ -163,7 +163,7 @@ function OrderStatusCard({ pending, paid, delivered, total }: { pending: number;
             <p className="text-xs text-muted-foreground">Total Orders</p>
           </div>
           {total > 0 && (
-            <Badge variant="secondary" className="text-xs text-green-700 flex-shrink-0">
+            <Badge variant="secondary" className="text-xs text-black flex-shrink-0">
               +{deliveredPercent.toFixed(1)}% delivered
             </Badge>
           )}
@@ -212,7 +212,7 @@ export default async function DashboardPage() {
   }).format(stats.avgOrderValue)
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] font-sans">
+    <div className="bg-[#f8f9fa] font-sans">
       <div className="p-4 sm:p-6 lg:p-8 space-y-4">
         {/* Header */}
         <div className="flex flex-col gap-1">
@@ -261,7 +261,7 @@ export default async function DashboardPage() {
             total={stats.totalOrders}
           />
           
-          <Card className="font-sans py-4 gap-8 hover:bg-[#ffebd6] overflow-hidden">
+          <Card className="font-sans py-4 gap-8 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between pb-0 px-4 sm:px-6">
               <CardTitle className="text-sm sm:text-base font-medium">Quick Stats</CardTitle>
               <div className="flex p-1 items-center justify-center rounded-[6px] bg-neutral-50 border flex-shrink-0">
@@ -304,7 +304,7 @@ export default async function DashboardPage() {
             </div>
           </Card>
 
-          <Card className="font-sans py-2 gap-2 hover:bg-[#ffebd6] sm:col-span-2 lg:col-span-2">
+          <Card className="font-sans py-2 gap-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] sm:col-span-2 lg:col-span-2">
             <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 sm:px-6">
               <CardTitle className="text-sm sm:text-base font-medium">Recent Orders</CardTitle>
               <div className="flex p-1 items-center justify-center rounded-[6px] bg-neutral-50 border flex-shrink-0">
@@ -337,7 +337,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Orders Table */}
-        <Card className="border border-border/50 shadow-sm py-2">
+        <Card className="border border-border/50 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] py-2">
           <CardHeader className="px-4 sm:px-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <div>
@@ -350,8 +350,10 @@ export default async function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent className="px-4 sm:px-6">
-            <DataTable columns={columns} data={data} />
-          </CardContent>
+  <div className="w-full overflow-x-auto">
+    <DataTable columns={columns} data={data} />
+  </div>
+</CardContent>  
         </Card>
       </div>
     </div>

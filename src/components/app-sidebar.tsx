@@ -64,15 +64,13 @@ const secondaryNavItems = [
 export function AppSidebar() {
   return (
     <TooltipProvider delayDuration={0}>
-      <Sidebar className="border-r border-border/80 font-sans">
+      <Sidebar className="border-r border-border/80 font-sans" collapsible="offcanvas">
         <SidebarHeader className="p-4">
          
           <a href="/dashboard" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-[6px] bg-[#ff8201] text-white font-bold text-lg">
-              <span className="h-4 w-2 bg-white"></span>
-            </div>
+          
             <div className="flex flex-col">
-              <span className="font-medium text-foreground">PrintIn</span>
+              <span className="font-medium text-xl text-foreground">PrintIn</span>
               <span className="text-xs text-muted-foreground">Admin Panel</span>
             </div>
           </a>

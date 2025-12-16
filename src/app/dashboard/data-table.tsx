@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-muted/30 hover:bg-muted/30">
+              <TableRow key={headerGroup.id} className="bg-[#ffd9b2]/60">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} className="font-semibold text-foreground">
@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
                   <ChevronsLeft className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-[#026766] text-white border-0">
+              <TooltipContent className="bg-background   text-foreground border-0">
                 <p>First page</p>
               </TooltipContent>
             </Tooltip>
@@ -172,7 +172,7 @@ export function DataTable<TData, TValue>({
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-[#026766] text-white border-0">
+              <TooltipContent className="bg-background   text-foreground border-0">
                 <p>Previous page</p>
               </TooltipContent>
             </Tooltip>
@@ -189,7 +189,7 @@ export function DataTable<TData, TValue>({
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-[#026766] text-white border-0">
+              <TooltipContent className="bg-background   text-foreground border-0">
                 <p>Next page</p>
               </TooltipContent>
             </Tooltip>
@@ -206,7 +206,7 @@ export function DataTable<TData, TValue>({
                   <ChevronsRight className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-[#026766] text-white border-0">
+              <TooltipContent className="bg-background   text-foreground border-0">
                 <p>Last page</p>
               </TooltipContent>
             </Tooltip>

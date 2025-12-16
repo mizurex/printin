@@ -41,7 +41,7 @@ export const columns: ColumnDef<Payment>[] = [
       const orderNumber = row.getValue("orderNumber") as number
       return (
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#026766]/10 text-xs font-semibold text-[#026766]">
+          <div className="flex h-8 w-8 items-center  justify-center rounded-lg text-xs font-semibold text-foreground">
             #{orderNumber}
           </div>
         </div>
@@ -81,11 +81,11 @@ export const columns: ColumnDef<Payment>[] = [
 
       const statusConfig = {
         PENDING: { 
-          bg: "bg-amber-100 text-amber-800 border-amber-200", 
+          bg: "bg-[#ffd9b2] text-foreground border-border/50", 
           label: "Pending" 
         },
         PAID: { 
-          bg: "bg-blue-100 text-blue-800 border-blue-200", 
+          bg: "bg-[#ffd9b2] text-foreground border-border/50", 
           label: "Paid" 
         },
         DELIVERED: { 
@@ -117,18 +117,18 @@ export const columns: ColumnDef<Payment>[] = [
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <div className={`flex items-center gap-2 px-2 py-1 rounded-md ${isDelivery ? 'bg-purple-50' : 'bg-cyan-50'}`}>
+              <div className={`flex items-center gap-2 px-2 py-1 border border-border/50 shadow-sm rounded-[4px] ${isDelivery ? '' : ''}`}>
                 {isDelivery ? (
-                  <Truck className="h-3.5 w-3.5 text-purple-600" />
+                  <Truck className="h-3.5 w-3.5 text-foreground" />
                 ) : (
-                  <FileText className="h-3.5 w-3.5 text-cyan-600" />
+                  <FileText className="h-3.5 w-3.5 text-foreground" />
                 )}
-                <span className={`text-xs font-medium ${isDelivery ? 'text-purple-700' : 'text-cyan-700'}`}>
+                <span className={`text-xs font-medium ${isDelivery ? 'text-foreground' : 'text-foreground'}`}>
                   {isDelivery ? "Delivery" : "Pickup"}
                 </span>
               </div>
             </TooltipTrigger>
-            <TooltipContent className="bg-[#026766] text-white border-0">
+            <TooltipContent className="bg-background   text-foreground border-0">
               <p>{isDelivery ? "Home delivery order" : "Store pickup order"}</p>
             </TooltipContent>
           </Tooltip>
@@ -151,7 +151,7 @@ export const columns: ColumnDef<Payment>[] = [
                 <span className="text-xs text-muted-foreground ml-1">({docs} files)</span>
               </div>
             </TooltipTrigger>
-            <TooltipContent className="bg-[#026766] text-white border-0">
+            <TooltipContent className="bg-background   text-foreground border-0">
               <p>{pages} pages across {docs} document{docs !== 1 ? 's' : ''}</p>
             </TooltipContent>
           </Tooltip>
